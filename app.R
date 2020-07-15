@@ -1,4 +1,4 @@
-###### Black Planners Literature Guide Shiny App ########
+###### Black Voices on the City Shiny App ########
 
 # Load Libraries
 library(shiny)
