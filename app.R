@@ -11,11 +11,24 @@ library(DT)
 Sys.setenv(LANG = "en")
 
 ## Load data
-#data <- read_xlsx("data/BlackPlannerGuide_Sample.xlsx")
+# data <- read_csv("data/Guide_Sources.csv")
 
-## data <- data %>% 
-#  rename("Urban Design" = "A", "Social Injustice" = "B", "Policing" = "C",
-#         "Land Use" = "D", "Community" = "E")
+## Put data in order
+# data <- data %>% 
+#  select(1:2, 4, 3, 5:7, 12, 8:11)
+
+# Pivot Longer
+#data <- data %>% 
+#  pivot_longer(cols = 9:12,
+#              names_to = "Theme Type",
+#              values_to = "Themes") %>% 
+#  select(-9)
+
+# Pivot Wider
+#data <- data %>% 
+#  pivot_wider(names_from = Themes,
+#               values_from = Themes) %>% 
+#  select(-12)
 
 #save(data, file = "data/data.Rdata")
 
@@ -65,18 +78,27 @@ ui <- fluidPage(
                                wellPanel(
                                  checkboxGroupInput(inputId = "keyword",
                                                     label = h4("Themes and Keywords"),
-                                                    choices = c("Urban Design", "Social Injustice", "Policing",
-                                                                "Land Use", "Community"),
-                                                    selected = "Community",
+                                                    choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
+                                                                "Community Organizing and Citizen Participation",
+                                                                "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
+                                                                "Development and Gentrification", "Feminist and Queer Urbanism",
+                                                                "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
+                                                                "Mapping and GIS", "Municipal Policy and Governance", 
+                                                                "Planning Practice","Politics of Land and Property", "Public Space", 
+                                                                "Racial and Social Justice", "Segregation and Redlining",
+                                                                "Sustainability, Environment, and Health","Transportation"),
+                                                    selected = "Being Black in Planning Practice and Education",
                                                     inline = T),
                                  checkboxGroupInput(inputId = "type",
                                                     label = h4("Media Type"),
-                                                    choices = unique(data$Media_Type),
-                                                    selected = "Book",
+                                                    choices = unique(data$`Item Format`),
+                                                    selected = unique(data$`Item Format`),
                                                     inline = T),
-                                 dateInput(inputId = "date",
-                                           label = h4("Year"),
-                                           format = "yyyy"))),
+                                 sliderInput (inputId = "years",
+                                           label = h4("Year Released"),
+                                           1850, 2020, 
+                                           value = c(1850, 2020),
+                                           sep = ""))),
                       ),
                       fluidRow(
                         column(8,offset = 1,
@@ -98,13 +120,13 @@ ui <- fluidPage(
                       br(),
                       br()
              ),
-             tabPanel("About Us",
+             tabPanel("About",
                       fluidRow(
                         column(4, offset = 5,
                                img(src='Logo-Dark-Fresno-6.png', width="200", align="center"))),
                       fluidRow(
                         column(8, offset = 2,
-                               titlePanel(h1("About Us")))),
+                               titlePanel(h1("About")))),
                       br(),
                       hr(),
                       fluidRow(
@@ -153,7 +175,9 @@ ui <- fluidPage(
                                           communities. While such materials are essential to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
                                           and works of Black creators."))
-                                 ))
+                                 )),
+                               br(),
+                               br()
                         ))
              ),
              
@@ -216,6 +240,7 @@ ui <- fluidPage(
                                br(),
                                helpText(p(style="text-align: justify;",
                                           "Please report any broken links to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))),
+                               br(),
                                br()
                         ))
                       
@@ -283,7 +308,9 @@ ui <- fluidPage(
                                           tags$a(href = "https://www.blackspace.org/neighborhood-strategy ",
                                                  "'Co-Designing Black Neighborhood Heritage Conservation Playbook'. BlackSpace")))
                         )
-                      )
+                      ),
+                      br(),
+                      br()
              )
   )
 )
@@ -293,13 +320,28 @@ server <- function(input, output) {
   
     output$table <- DT::renderDataTable({
         data <- data %>%
-            filter(Community %in% input$keyword |
-                   `Urban Design` %in% input$keyword |
-                     Policing %in% input$keyword |
-                     `Social Injustice` %in% input$keyword |
-                     `Land Use` %in% input$keyword,
-                   Media_Type %in% input$type) 
-        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(12:16)))))
+            filter(`Sustainability, Environment, and Health` %in% input$keyword |
+                     `Racial and Social Justice` %in% input$keyword |
+                     `Development and Gentrification` %in% input$keyword |
+                     `Community Organizing and Citizen Participation` %in% input$keyword |
+                     `Culture, Placemaking, and Black Geographies` %in% input$keyword |
+                     `Politics of Land and Property` %in% input$keyword |
+                     `Transportation` %in% input$keyword |
+                     `Architecture and Urban Design` %in% input$keyword |
+                     `History of Cities and Urban Planning` %in% input$keyword |
+                     `Being Black in Planning Practice and Education` %in% input$keyword |
+                     `Public Space` %in% input$keyword |
+                     `Municipal Policy and Governance` %in% input$keyword |
+                     `Mapping and GIS` %in% input$keyword |
+                     `Segregation and Redlining` %in% input$keyword |
+                     `Housing` %in% input$keyword |
+                     `Feminist and Queer Urbanism` %in% input$keyword |
+                     `Crime, Policing, and Surveillance` %in% input$keyword |
+                     `Global Perspectives` %in% input$keyword |
+                     `Planning Practice` %in% input$keyword,
+                   `Item Format` %in% input$type,
+                    Year >= input$years[1] & Year <= input$years[2]) 
+        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(9:29)))))
             })
 }
 
