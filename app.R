@@ -71,10 +71,10 @@ ui <- fluidPage(
                       fluidRow(
                         column(6, offset = 3,
                                helpText(h3("Choose one or more themes that interest you,
-                                           select by region or type of publication and more..."), align="center"))),
+                                           select by type of publication, and more..."), align="center"))),
                       br(),
                       fluidRow(
-                        column(6, offset = 3,
+                        column(8, offset = 2,
                                wellPanel(
                                  checkboxGroupInput(inputId = "keyword",
                                                     label = h4("Themes and Keywords"),
@@ -101,7 +101,7 @@ ui <- fluidPage(
                                            sep = ""))),
                       ),
                       fluidRow(
-                        column(8,offset = 1,
+                        column(8,offset = 2,
                                dataTableOutput("table"))
                       ),
                       br(),
