@@ -1,5 +1,5 @@
 html {
-  font-family: sans-serif;
+  font-family: "Fresno Black";
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
@@ -1081,7 +1081,6 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333333;
-  background-color: #f7fdff;
 }
 input,
 button,
@@ -1260,33 +1259,41 @@ h6 .small,
 h1,
 .h1 {
   font-size: 36px;
-  color: #333D51;
   text-align: center;
-  border: 2px solid black;
-  border-radius: 10px;
-  border-spacing: 1px;
   padding: 10px 0;
   margin-left: 100;
+  font-family: "Fresno Black";
+  color : #464646;
 }
 h2,
 .h2 {
   font-size: 30px;
+  font-family: "Fresno Black";
+  color : #464646;
 }
 h3,
 .h3 {
   font-size: 24px;
+  font-family: "Fresno Black";
+  color : #464646;
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 16px;
+  font-family: "Futura PT Book";
+  color : #666666;
+  line-height: 26px;
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 16px;
+  font-family: "Futura PT Book";
+  color : #464646;
 }
 h6,
 .h6 {
   font-size: 12px;
+  font-family: "Futura PT Book";
 }
 p {
   margin: 0 0 10px;
@@ -2349,8 +2356,9 @@ pre code {
   }
 }
 table {
-  background-color: #f7fdff;
-  color: #4A5553;
+  background-color: #F1EDEE;
+  color: #464646;
+  font-family: "Futura PT Book";
 }
 table col[class*="col-"] {
   position: static;
@@ -2366,7 +2374,7 @@ table th[class*="col-"] {
 caption {
   padding-top: 8px;
   padding-bottom: 8px;
-  color: #777777;
+  color: #F1EDEE;
   text-align: left;
 }
 th {
@@ -5899,7 +5907,7 @@ button.list-group-item-danger.active:focus {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #F3D1C8;
+  background-color: #F1EDEE;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }

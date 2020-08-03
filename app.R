@@ -75,7 +75,7 @@ ui <- fluidPage(
                         column(8, offset = 2,
                                br(),
                                helpText(p(style="text-align: justify;", 
-                                          "Black Voices on the City is a student-organized database that 
+                                          h4("Black Voices on the City is a student-organized database that 
                                           aims to accomplish two things: first, to catalog the contributions
                                           of black researchers and practitioners to the field of urban planning
                                           and second, to amplify the unique voices and perspectives they bring to
@@ -86,11 +86,11 @@ ui <- fluidPage(
                                           classrooms and curriculum is to lead by example, proactively seeking out
                                           and learning from Black planners and scholars. This guide is just one part
                                           of a larger, nascent effort to organize students and faculty around 
-                                          re-imagining what constitutes urban planning and who contributes to that dialogue.")),
+                                          re-imagining what constitutes urban planning and who contributes to that dialogue."))),
                                helpText(p(style="text-align: justify;", 
-                                          "If you would like to contribute a resource to this database, please use our", 
+                                          h4("If you would like to contribute a resource to this database, please use our", 
                                           tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
-                                          "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))
+                                          "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       br(),
                       tweaks,
@@ -99,8 +99,8 @@ ui <- fluidPage(
                                wellPanel(
                                  tags$div(align = 'left', 
                                           class = 'multicol',
-                                          checkboxGroupInput(inputId = "keyword",
-                                                    label = h4("Themes and Keywords"),
+                                          h5(checkboxGroupInput(inputId = "keyword",
+                                                    label = h3("Themes & Keywords"),
                                                     choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
                                                                 "Community Organizing and Citizen Participation",
                                                                 "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
@@ -111,17 +111,17 @@ ui <- fluidPage(
                                                                 "Racial and Social Justice", "Segregation and Redlining",
                                                                 "Sustainability, Environment, and Health","Transportation"),
                                                     selected = "Being Black in Planning Practice and Education",
-                                                    inline = FALSE)),
-                                 checkboxGroupInput(inputId = "type",
-                                                    label = h4("Media Type"),
+                                                    inline = FALSE))),
+                                 h5(checkboxGroupInput(inputId = "type",
+                                                    label = h3("Media Type"),
                                                     choices = unique(data$item_format_2),
                                                     selected = unique(data$item_format_2),
-                                                    inline = T),
-                                 sliderInput (inputId = "years",
-                                           label = h4("Year Released"),
+                                                    inline = T)),
+                                 h5(sliderInput (inputId = "years",
+                                           label = h3("Year Released"),
                                            1850, 2020, 
                                            value = c(1850, 2020),
-                                           sep = ""))),
+                                           sep = "")))),
                       ),
                       br(),
                       fluidRow(
@@ -146,7 +146,7 @@ ui <- fluidPage(
                         column(8, offset = 2,
                                helpText(h3("Who We Are"), align="center"),
                                helpText(p(style="text-align: justify;",
-                                          "One of the most important guiding questions in anti-racism teachings
+                                          h4("One of the most important guiding questions in anti-racism teachings
                                is “Who am I/who are we to do this work?” We owe users of this guide our answer 
                                to that question so they can hold us accountable as we exercise our privileges to
                                fight anti-Black racism in the field of urban planning. First and foremost, we are
@@ -156,27 +156,27 @@ ui <- fluidPage(
                                as queer, feminist, and immigrants. We come to this work with a recognition that these
                                identities produce a number of limitations and blindspots, which is why we are calling
                                in everyone with an interest in tackling anti-Blackness within urban planning to collaborate
-                               with us and critique our work.")),
+                               with us and critique our work."))),
                                helpText(p(style="text-align: justify;",
-                                          "For additional information on how we inform our allyship, please see Amélie Lamont’s",
-                                          tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship."))),
+                                          h4("For additional information on how we inform our allyship, please see Amélie Lamont’s",
+                                          tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
                                br(),
                                helpText(h3("Acknowledgements"), align="center"),
                                helpText(p(style="text-align: justify;", 
-                               "This guide is indebted first and foremost to the scholars, authors and creators
+                               h4("This guide is indebted first and foremost to the scholars, authors and creators
                                           listed here. It is also the result of the collective effort of students, alumni
                                           and others, who have dedicated their time and resources to changing the ways in
                                           which we learn what planning is and who planners are. Finally, we would like to
                                           acknowledge the efforts of individuals and organizations who have also created
                                           complementary resource lists and guides on anti-Blackness and anti-racism in
-                                          urban planning, all of which have helped  (see Additional Resources)."))
+                                          urban planning, all of which have helped  (see Additional Resources).")))
                                  )),
                       br(),
                       fluidRow(
                         column(4, offset = 2,
                                         helpText(h3("What’s In This Guide"), align="center"),
                                         helpText(p(style="text-align: justify;", 
-                                                   "This guide attempts to collect and curate the contributions of Black planners,
+                                                   h4("This guide attempts to collect and curate the contributions of Black planners,
                                           scholars, artists, writers, organizers and practitioners from a variety of fields
                                           that are concerned with the process of organizing space and place in the urban
                                           environment. The works listed here represent both traditional planning preoccupations
@@ -186,18 +186,18 @@ ui <- fluidPage(
                                           critical approaches and novel methodologies employed to de-center Whiteness in the
                                           analysis of urban issues. Finally, while the majority of resources are books or journal
                                           articles, we have also endeavored to include various media such as films, podcasts, essays,
-                                          and online essays."))
+                                          and online essays.")))
                                  ),
                         column(4,
                                         helpText(h3("What’s NOT In This Guide"), align="center"),
                                         helpText(p(style="text-align: justify;", 
-                                                   "Simply put, this guide does not include non-Black people writing about Black people.
+                                                   h4("Simply put, this guide does not include non-Black people writing about Black people.
                                           A wealth of important scholarship by non-Black scholars and planners exists on the racist
                                           practices embedded within urban planning, i.e. redlining, gentrification and “urban renewal.”
                                           They have also documented successful urban social movements and advocacy efforts within Black
                                           communities. While such materials are essential to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and works of Black creators."))
+                                          and works of Black creators.")))
                                  )),
                                br(),
                                br(),
@@ -217,15 +217,15 @@ ui <- fluidPage(
                         column(8, offset = 2,
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          "We hope this guide will be of great use to all members of the general
+                                          h4("We hope this guide will be of great use to all members of the general
                                           public interested in urban planning and policy issues, but we particularly
                                           hope it provokes a deeper conversation within university-based planning
                                           programs to change the methods of teaching and learning to include Black voices
-                                          and previously underrepresented approaches to the built environment.")),
+                                          and previously underrepresented approaches to the built environment."))),
                                br(),
                                helpText(h3("For Faculty...")),
                                helpText(p(style="text-align: justify;",
-                                          "... this means ensuring that syllabi and class discussions engage with
+                                          h4("... this means ensuring that syllabi and class discussions engage with
                                           the writings and practice of Black planners, both historically and today. While 
                                           current curriculum may acknowledge historical planning racism, such as urban renewal,
                                           graduates of urban planning programs need exposure to the wealth of recent Black
@@ -236,11 +236,11 @@ ui <- fluidPage(
                                           respective fields, including transportation, sustainability, and urban governance,
                                           and should be treated as such in undergraduate and graduate planning courses. If you are
                                           uncomfortable in presenting the material, especially if you are White, then this is an opportunity
-                                          to learn and grow with your students, not an excuse to opt out.")),
+                                          to learn and grow with your students, not an excuse to opt out."))),
                                br(),
                                helpText(h3("For Students...")),
                                helpText(p(style="text-align: justify;",
-                                          "... this guide is a call to action. You should use it to organize with your peers to
+                                          h4("... this guide is a call to action. You should use it to organize with your peers to
                                           insist that more diverse perspectives from the field are included in your education - not just Black
                                           voices, but also those of women, scholars of color/visible minorities, LGBTQ folks, individuals
                                           with altered mobility, and both indigineous and immigrant communities. You should also use it as
@@ -250,19 +250,19 @@ ui <- fluidPage(
                                           podcasts, blogs, interviews, and other forms of media that represent a greater breadth of Black thinking
                                           on urban issues than traditional academic journals and publishing houses have produced. Finally,
                                           this guide is intended as a launching point and we encourage you to pay it forward by contributing to this
-                                          guide in the future as new resources become available.")),
+                                          guide in the future as new resources become available."))),
                                br(),
                                helpText(h3("For the General Public...")),
                                helpText(p(style="text-align: justify;",
-                                          "... this guide offers an abundance of readings to challenge assumptions about race,
+                                          h4("... this guide offers an abundance of readings to challenge assumptions about race,
                                           place and meaning in the urban environment. It spans from the history of residential segregation and disparities
                                           in public transportation to mapping Black joy and the achievements of Black architects. While many of the journal
                                           articles and scholarly works are accessible only through institutional (i.e. university) access, please check if
                                           your local public library offers access online or through Interlibrary Loan (ILL) programs. Many of the books are
-                                          available through your local bookstores.")),
+                                          available through your local bookstores."))),
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          "Please report any broken links to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))),
+                                          h4("Please report any broken links to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
                                br(),
                                br()
                         ))
@@ -283,53 +283,53 @@ ui <- fluidPage(
                                br(),
                                helpText(h3("Related Resource Guides")),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0#resources",
-                                                 "The National Museum of African American History and Culture"))),
+                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0#resources",
+                                                 "The National Museum of African American History and Culture")))),
                                br(),
                                helpText(h3("Organizations")),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "www.urbanconsulate.com",
-                                                 "Urban Consulate"))),
+                                          h4(tags$a(href = "www.urbanconsulate.com",
+                                                 "Urban Consulate")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://blackcommunity.planning.org/",
-                                                 "APA Planning and the Black Community Division"))),
+                                          h4(tags$a(href = "https://blackcommunity.planning.org/",
+                                                 "APA Planning and the Black Community Division")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://noma.net/",
-                                                 "National Organization of Minority Architects"))),
+                                          h4(tags$a(href = "https://noma.net/",
+                                                 "National Organization of Minority Architects")))),
                                br(),
                                helpText(h3("People and Organizations on Social Media")),
                                helpText(p(style="text-align: justify;",
-                                          "*Note: Please follow these accounts but be mindful of not overwhelming black practitioners with
+                                          h4("*Note: Please follow these accounts but be mindful of not overwhelming black practitioners with
                                  requests for collaboration or other questions unless you know them personally or had a working
-                                 relationship with them before listening to black voices became trendy.")),
+                                 relationship with them before listening to black voices became trendy."))),
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          "BlackSpace (Insta: @blackspaceorg)")),
+                                          h4("BlackSpace (Insta: @blackspaceorg)"))),
                                helpText(p(style="text-align: justify;",
-                                          "Kristen Jeffers, The Black Urbanist (Insta: @blackurbanist)")),
+                                          h4("Kristen Jeffers, The Black Urbanist (Insta: @blackurbanist)"))),
                                helpText(p(style="text-align: justify;",
-                                          "Black Urbanism (Insta: @blackurbanism)")),
+                                          h4("Black Urbanism (Insta: @blackurbanism)"))),
                                helpText(p(style="text-align: justify;",
-                                          "Brentin Mock, City Lab (Twitter: @Brentinmock)"))
+                                          h4("Brentin Mock, City Lab (Twitter: @Brentinmock)")))
                         ),
                         column(4,
                                br(),
                                helpText(h3("General Links")),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://nextcity.org/daily/entry/black-people-have-been-building-a-better-world-who-will-join-them",
-                                                 "'Black People Have Been Building a Better World. Who Will Join Them?', NextCity"))),
+                                          h4(tags$a(href = "https://nextcity.org/daily/entry/black-people-have-been-building-a-better-world-who-will-join-them",
+                                                 "'Black People Have Been Building a Better World. Who Will Join Them?', NextCity")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0",
-                                                 "'Shifting the Landscape: Black Architects and Planners, 1968 to Now'. National Museum of African American History and Culture"))),
+                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0",
+                                                 "'Shifting the Landscape: Black Architects and Planners, 1968 to Now'. National Museum of African American History and Culture")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://la.curbed.com/maps/los-angeles-black-architects-projects-map",
-                                                 "'Mapped: 20 places in LA where black architects left their mark'. Curbed Los Angeles"))),
+                                          h4(tags$a(href = "https://la.curbed.com/maps/los-angeles-black-architects-projects-map",
+                                                 "'Mapped: 20 places in LA where black architects left their mark'. Curbed Los Angeles")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://publicdomain.nypl.org/greenbook-map/",
-                                                 "'Navigating the Green Book'. New York Public Library"))),
+                                          h4(tags$a(href = "https://publicdomain.nypl.org/greenbook-map/",
+                                                 "'Navigating the Green Book'. New York Public Library")))),
                                helpText(p(style="text-align: justify;",
-                                          tags$a(href = "https://www.blackspace.org/neighborhood-strategy ",
-                                                 "'Co-Designing Black Neighborhood Heritage Conservation Playbook'. BlackSpace")))
+                                          h4(tags$a(href = "https://www.blackspace.org/neighborhood-strategy ",
+                                                 "'Co-Designing Black Neighborhood Heritage Conservation Playbook'. BlackSpace"))))
                         )
                       ),
                       br(),
