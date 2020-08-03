@@ -6,12 +6,13 @@ library(tidyverse)
 library(ggplot2)
 library(readxl)
 library(shinythemes)
+library(shinyWidgets)
 library(DT)
 
 Sys.setenv(LANG = "en")
 
 ## Load data
-# data <- read_csv("data/Guide_Sources.csv")
+#data <- read_csv("data/Guide_Sources.csv")
 
 ## Put data in order
 # data <- data %>% 
@@ -30,11 +31,31 @@ Sys.setenv(LANG = "en")
 #               values_from = Themes) %>% 
 #  select(-12)
 
+# Create new Item Format column (remove book redundancy)
+#data <- data %>% 
+ # mutate(item_format_2 = `Item Format`)
+
+#data$item_format_2 <- data$item_format_2 %>% 
+ # replace(data$item_format_2 == "Book - Entire" | data$item_format_2 == "Book - Chapter", "Book") 
+
 #save(data, file = "data/data.Rdata")
 
 load(file = "data/data.Rdata")
 
-### UI ###
+tweaks <- 
+  list(tags$head(tags$style(HTML("
+                                 .multicol { 
+                                   height: 200px;
+                                   -webkit-column-count: 4; /* Chrome, Safari, Opera */ 
+                                   -moz-column-count: 4;    /* Firefox */ 
+                                   column-count: 4; 
+                                   -moz-column-fill: auto;
+                                   -column-fill: auto;
+                                 } 
+                                 ")) 
+  ))
+
+library(rsconnect)
 
 ### UI ###
 
@@ -65,18 +86,20 @@ ui <- fluidPage(
                                           classrooms and curriculum is to lead by example, proactively seeking out
                                           and learning from Black planners and scholars. This guide is just one part
                                           of a larger, nascent effort to organize students and faculty around 
-                                          re-imagining what constitutes urban planning and who contributes to that dialogue."))
+                                          re-imagining what constitutes urban planning and who contributes to that dialogue.")),
+                               helpText(p(style="text-align: justify;", 
+                                          "If you would like to contribute a resource to this database, please use our", 
+                                          tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
+                                          "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))
                         )),
                       br(),
-                      fluidRow(
-                        column(6, offset = 3,
-                               helpText(h3("Choose one or more themes that interest you,
-                                           select by type of publication, and more..."), align="center"))),
-                      br(),
+                      tweaks,
                       fluidRow(
                         column(8, offset = 2,
                                wellPanel(
-                                 checkboxGroupInput(inputId = "keyword",
+                                 tags$div(align = 'left', 
+                                          class = 'multicol',
+                                          checkboxGroupInput(inputId = "keyword",
                                                     label = h4("Themes and Keywords"),
                                                     choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
                                                                 "Community Organizing and Citizen Participation",
@@ -88,11 +111,11 @@ ui <- fluidPage(
                                                                 "Racial and Social Justice", "Segregation and Redlining",
                                                                 "Sustainability, Environment, and Health","Transportation"),
                                                     selected = "Being Black in Planning Practice and Education",
-                                                    inline = T),
+                                                    inline = FALSE)),
                                  checkboxGroupInput(inputId = "type",
                                                     label = h4("Media Type"),
-                                                    choices = unique(data$`Item Format`),
-                                                    selected = unique(data$`Item Format`),
+                                                    choices = unique(data$item_format_2),
+                                                    selected = unique(data$item_format_2),
                                                     inline = T),
                                  sliderInput (inputId = "years",
                                            label = h4("Year Released"),
@@ -100,23 +123,12 @@ ui <- fluidPage(
                                            value = c(1850, 2020),
                                            sep = ""))),
                       ),
+                      br(),
                       fluidRow(
                         column(8,offset = 2,
                                dataTableOutput("table"))
                       ),
                       br(),
-                      fluidRow(
-                        column(8, offset = 2,
-                               helpText(h3("Acknowledgements"), align="center"),
-                               helpText(p(style="text-align: justify;", 
-                                          "This guide is indebted first and foremost to the scholars, authors and creators
-                                          listed here. It is also the result of the collective effort of students, alumni
-                                          and others, who have dedicated their time and resources to changing the ways in
-                                          which we learn what planning is and who planners are. Finally, we would like to
-                                          acknowledge the efforts of individuals and organizations who have also created
-                                          complementary resource lists and guides on anti-Blackness and anti-racism in
-                                          urban planning, all of which have helped  (see Additional Resources)."))
-                        )),
                       br(),
                       br()
              ),
@@ -129,9 +141,9 @@ ui <- fluidPage(
                                titlePanel(h1("About")))),
                       br(),
                       hr(),
+                      br(),
                       fluidRow(
                         column(8, offset = 2,
-                               br(),
                                helpText(h3("Who We Are"), align="center"),
                                helpText(p(style="text-align: justify;",
                                           "One of the most important guiding questions in anti-racism teachings
@@ -149,8 +161,19 @@ ui <- fluidPage(
                                           "For additional information on how we inform our allyship, please see Amélie Lamont’s",
                                           tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship."))),
                                br(),
-                               fluidRow(
-                                 column(6,
+                               helpText(h3("Acknowledgements"), align="center"),
+                               helpText(p(style="text-align: justify;", 
+                               "This guide is indebted first and foremost to the scholars, authors and creators
+                                          listed here. It is also the result of the collective effort of students, alumni
+                                          and others, who have dedicated their time and resources to changing the ways in
+                                          which we learn what planning is and who planners are. Finally, we would like to
+                                          acknowledge the efforts of individuals and organizations who have also created
+                                          complementary resource lists and guides on anti-Blackness and anti-racism in
+                                          urban planning, all of which have helped  (see Additional Resources)."))
+                                 )),
+                      br(),
+                      fluidRow(
+                        column(4, offset = 2,
                                         helpText(h3("What’s In This Guide"), align="center"),
                                         helpText(p(style="text-align: justify;", 
                                                    "This guide attempts to collect and curate the contributions of Black planners,
@@ -165,7 +188,7 @@ ui <- fluidPage(
                                           articles, we have also endeavored to include various media such as films, podcasts, essays,
                                           and online essays."))
                                  ),
-                                 column(6,
+                        column(4,
                                         helpText(h3("What’s NOT In This Guide"), align="center"),
                                         helpText(p(style="text-align: justify;", 
                                                    "Simply put, this guide does not include non-Black people writing about Black people.
@@ -177,8 +200,8 @@ ui <- fluidPage(
                                           and works of Black creators."))
                                  )),
                                br(),
-                               br()
-                        ))
+                               br(),
+                      br()
              ),
              
              tabPanel("How To Use This Guide",
@@ -339,9 +362,9 @@ server <- function(input, output) {
                      `Crime, Policing, and Surveillance` %in% input$keyword |
                      `Global Perspectives` %in% input$keyword |
                      `Planning Practice` %in% input$keyword,
-                   `Item Format` %in% input$type,
+                   item_format_2 %in% input$type,
                     Year >= input$years[1] & Year <= input$years[2]) 
-        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(9:29)))))
+        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(9:30)))))
             })
 }
 
