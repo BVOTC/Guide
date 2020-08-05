@@ -9,7 +9,9 @@ library(shinythemes)
 library(shinyWidgets)
 library(DT)
 
+
 Sys.setenv(LANG = "en")
+
 
 ## Load data
 #data <- read_csv("data/Guide_Sources.csv")
