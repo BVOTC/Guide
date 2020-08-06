@@ -149,13 +149,13 @@ ui <- fluidPage(
                                           h4("One of the most important guiding questions in anti-racism teachings
                                is “Who am I/who are we to do this work?” We owe users of this guide our answer 
                                to that question so they can hold us accountable as we exercise our privileges to
-                               fight anti-Black racism in the field of urban planning. First and foremost, we are
-                               a group of largely non-Black graduate students and alumni whose lives have benefited
-                               from intersections with other forms of privilege, including being male and cisgender
-                               as well as having access to family wealth and higher education. Some of us also identify
-                               as queer, feminist, and immigrants. We come to this work with a recognition that these
+                               fight anti-Black racism in the field of urban planning. We are
+                               a group of majority non-Black graduate students and alumni whose lives have benefited
+                               from intersections with other forms of privilege, such as being male and cisgender
+                              or having access to family wealth and higher education. Some of us also identify
+                               as queers, feminists, and immigrants. We come to this work with a recognition that these
                                identities produce a number of limitations and blindspots, which is why we are calling
-                               in everyone with an interest in tackling anti-Blackness within urban planning to collaborate
+                               on everyone with an interest in tackling anti-Blackness within urban planning to collaborate
                                with us and critique our work."))),
                                helpText(p(style="text-align: justify;",
                                           h4("For additional information on how we inform our allyship, please see Amélie Lamont’s",
@@ -168,8 +168,8 @@ ui <- fluidPage(
                                           and others, who have dedicated their time and resources to changing the ways in
                                           which we learn what planning is and who planners are. Finally, we would like to
                                           acknowledge the efforts of individuals and organizations who have also created
-                                          complementary resource lists and guides on anti-Blackness and anti-racism in
-                                          urban planning, all of which have helped  (see Additional Resources).")))
+                                          resource lists on anti-Blackness and anti-racism in planning and related fields, 
+                                          which have helped in the creation of this guide  (see Additional Resources).")))
                                  )),
                       br(),
                       fluidRow(
@@ -193,7 +193,7 @@ ui <- fluidPage(
                                         helpText(p(style="text-align: justify;", 
                                                    h4("Simply put, this guide does not include non-Black people writing about Black people.
                                           A wealth of important scholarship by non-Black scholars and planners exists on the racist
-                                          practices embedded within urban planning, i.e. redlining, gentrification and “urban renewal.”
+                                          practices embedded within urban planning such as redlining, gentrification and “urban renewal.”
                                           They have also documented successful urban social movements and advocacy efforts within Black
                                           communities. While such materials are essential to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
@@ -243,7 +243,7 @@ ui <- fluidPage(
                                           h4("... this guide is a call to action. You should use it to organize with your peers to
                                           insist that more diverse perspectives from the field are included in your education - not just Black
                                           voices, but also those of women, scholars of color/visible minorities, LGBTQ folks, individuals
-                                          with altered mobility, and both indigineous and immigrant communities. You should also use it as
+                                          with altered mobility, and both Indigenous and immigrant communities. You should also use it as
                                           a resource for personal learning and as source material for your coursework. Every essay, term paper
                                           or thesis is an opportunity to read, learn from, and cite Black sources. It also an opportunity to push
                                           the boundaries of what constitutes “appropriate” source material for academic work. You will find videos,
@@ -262,7 +262,7 @@ ui <- fluidPage(
                                           available through your local bookstores."))),
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          h4("Please report any broken links to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
+                                          h4("Please report any broken links or corrections to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
                                br(),
                                br()
                         ))
