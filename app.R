@@ -9,6 +9,8 @@ library(shinythemes)
 library(shinyWidgets)
 library(DT)
 
+
+
 Sys.setenv(LANG = "en")
 
 ## Load data
@@ -83,7 +85,7 @@ ui <- fluidPage(
                                           heterosexual men since its beginnings. As current students and alumni 
                                           of urban planning programs, we feel that the best way to channel our 
                                           frustrations with the anti-Black racism left unacknowledged in our 
-                                          classrooms and curriculum is to lead by example, proactively seeking out
+                                          classrooms and curricula is to lead by example, proactively seeking out
                                           and learning from Black planners and scholars. This guide is just one part
                                           of a larger, nascent effort to organize students and faculty around 
                                           re-imagining what constitutes urban planning and who contributes to that dialogue."))),
@@ -183,9 +185,9 @@ ui <- fluidPage(
                                           such as housing policy, transportation planning and urban design, as well as more
                                           interdisciplinary fields like urban sociology, cultural history, and Black-centered
                                           approaches to community building and organizing. Users will also find a number of
-                                          critical approaches and novel methodologies employed to de-center Whiteness in the
+                                          critical approaches and novel methodologies employed to de-center whiteness in the
                                           analysis of urban issues. Finally, while the majority of resources are books or journal
-                                          articles, we have also endeavored to include various media such as films, podcasts, essays,
+                                          articles, we have also endeavored to include various media such as videos
                                           and online essays.")))
                                  ),
                         column(4,
@@ -193,11 +195,11 @@ ui <- fluidPage(
                                         helpText(p(style="text-align: justify;", 
                                                    h4("Simply put, this guide does not include non-Black people writing about Black people.
                                           A wealth of important scholarship by non-Black scholars and planners exists on the racist
-                                          practices embedded within urban planning such as redlining, gentrification and “urban renewal.”
+                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
                                           They have also documented successful urban social movements and advocacy efforts within Black
-                                          communities. While such materials are essential to a comprehensive understanding of the historical,
+                                          communities. While such materials are important to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and works of Black creators.")))
+                                          and work of Black creators.")))
                                  )),
                                br(),
                                br(),
@@ -227,23 +229,23 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;",
                                           h4("... this means ensuring that syllabi and class discussions engage with
                                           the writings and practice of Black planners, both historically and today. While 
-                                          current curriculum may acknowledge historical planning racism, such as urban renewal,
+                                          current curricula may acknowledge historical racism in planning, 
                                           graduates of urban planning programs need exposure to the wealth of recent Black
                                           scholarship that addresses the forms of racism we will encounter in our professional
-                                          lives. More importantly, this means including such materials in all areas of planning.
-                                          Not all of these materials focus on racial issues, and it is essential not to limit the
+                                          lives. If you are uncomfortable in presenting the material,  especially if you are white, 
+                                          then this is an opportunity to learn and grow with your students, not an excuse to opt out.
+                                          At the same time, not all of the materials inlcuded in this guide focus on racial issues, 
+                                          and it is essential to not limit the
                                           authority of these writers to issues of race. They are experts and leaders in their
                                           respective fields, including transportation, sustainability, and urban governance,
-                                          and should be treated as such in undergraduate and graduate planning courses. If you are
-                                          uncomfortable in presenting the material, especially if you are White, then this is an opportunity
-                                          to learn and grow with your students, not an excuse to opt out."))),
+                                          and should be treated as such in undergraduate and graduate planning courses."))),
                                br(),
                                helpText(h3("For Students...")),
                                helpText(p(style="text-align: justify;",
                                           h4("... this guide is a call to action. You should use it to organize with your peers to
                                           insist that more diverse perspectives from the field are included in your education - not just Black
-                                          voices, but also those of women, scholars of color/visible minorities, LGBTQ folks, individuals
-                                          with altered mobility, and both Indigenous and immigrant communities. You should also use it as
+                                          voices, but also those of women, people of color/visible minorities, Indigenous peoples, LGBTQ folks, individuals
+                                          with altered mobility, and immigrant communities. You should also use it as
                                           a resource for personal learning and as source material for your coursework. Every essay, term paper
                                           or thesis is an opportunity to read, learn from, and cite Black sources. It also an opportunity to push
                                           the boundaries of what constitutes “appropriate” source material for academic work. You will find videos,
