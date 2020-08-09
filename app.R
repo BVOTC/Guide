@@ -13,8 +13,12 @@ library(DT)
 
 Sys.setenv(LANG = "en")
 
+
+######### Import guide data ################################
+
 ## Load data
 #data <- read_csv("data/Guide_Sources.csv")
+
 
 ## Put data in order
 # data <- data %>% 
@@ -42,7 +46,32 @@ Sys.setenv(LANG = "en")
 
 #save(data, file = "data/data.Rdata")
 
+
+
+
+
+###### Import additional resources data ###############################
+
+data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
+  mutate( Name = if_else(is.na(Link),
+                         Name,
+                         paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
+  select(Type, Name, Notes = Description)
+
+
+
+
+
+###### Webpage layout ################################################
+
 load(file = "data/data.Rdata")
+
+
+data <- data  %>%   mutate( Title = if_else(is.na(Link),
+                                               Title,
+                                               paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))) %>%
+  select(-Link)
+
 
 tweaks <- 
   list(tags$head(tags$style(HTML("
@@ -79,7 +108,7 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;", 
                                           h4("Black Voices on the City is a student-organized database that 
                                           aims to accomplish two things: first, to catalog the contributions
-                                          of black researchers and practitioners to the field of urban planning
+                                          of black researchers and practitioners to the field of urban planning,
                                           and second, to amplify the unique voices and perspectives they bring to
                                           a field that has been overwhelmingly dominated by white, cisgender,
                                           heterosexual men since its beginnings. As current students and alumni 
@@ -279,66 +308,33 @@ ui <- fluidPage(
                         column(8, offset = 2,
                                titlePanel(h1("Additional Resources")))),
                       br(),
+              
                       hr(),
+                    #   
+                    # fluidRow(
+                    #   column(8, offset = 2,
+                    #          br(),
+                    #          helpText(p(style="text-align: justify;", 
+                    #                     h4("Here you can find a very inexhaustive list of Black-led urbanist organisations and media, as well as complementary resource lists."))))),
+                    # br(),
+                    
                       fluidRow(
-                        column(4, offset = 2,
-                               br(),
-                               helpText(h3("Related Resource Guides")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0#resources",
-                                                 "The National Museum of African American History and Culture")))),
-                               br(),
-                               helpText(h3("Organizations")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "www.urbanconsulate.com",
-                                                 "Urban Consulate")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://blackcommunity.planning.org/",
-                                                 "APA Planning and the Black Community Division")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://noma.net/",
-                                                 "National Organization of Minority Architects")))),
-                               br(),
-                               helpText(h3("People and Organizations on Social Media")),
-                               helpText(p(style="text-align: justify;",
-                                          h4("*Note: Please follow these accounts but be mindful of not overwhelming black practitioners with
-                                 requests for collaboration or other questions unless you know them personally or had a working
-                                 relationship with them before listening to black voices became trendy."))),
-                               br(),
-                               helpText(p(style="text-align: justify;",
-                                          h4("BlackSpace (Insta: @blackspaceorg)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Kristen Jeffers, The Black Urbanist (Insta: @blackurbanist)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Black Urbanism (Insta: @blackurbanism)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Brentin Mock, City Lab (Twitter: @Brentinmock)")))
-                        ),
-                        column(4,
-                               br(),
-                               helpText(h3("General Links")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nextcity.org/daily/entry/black-people-have-been-building-a-better-world-who-will-join-them",
-                                                 "'Black People Have Been Building a Better World. Who Will Join Them?', NextCity")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0",
-                                                 "'Shifting the Landscape: Black Architects and Planners, 1968 to Now'. National Museum of African American History and Culture")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://la.curbed.com/maps/los-angeles-black-architects-projects-map",
-                                                 "'Mapped: 20 places in LA where black architects left their mark'. Curbed Los Angeles")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://publicdomain.nypl.org/greenbook-map/",
-                                                 "'Navigating the Green Book'. New York Public Library")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://www.blackspace.org/neighborhood-strategy ",
-                                                 "'Co-Designing Black Neighborhood Heritage Conservation Playbook'. BlackSpace"))))
-                        )
-                      ),
+                        column(8, offset = 2,
+                               wellPanel(
+                                 tags$div(align = 'left',
+                                          
+                                 h5(checkboxGroupInput(inputId = "type2",
+                                                      label =  h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."),
+                                                       choices = unique(data_AR$Type),
+                                                       selected = unique(data_AR$Type),
+                                                       inline = T))  ))    ) ),
                       br(),
-                      br()
-             )
-  )
-)
+                      fluidRow(
+                        column(8,offset = 2,
+                               dataTableOutput("table_AR"))),
+                      br(),
+                      br()  )            
+  ))
 
 ### Server ###
 server <- function(input, output) {
@@ -366,8 +362,22 @@ server <- function(input, output) {
                      `Planning Practice` %in% input$keyword,
                    item_format_2 %in% input$type,
                     Year >= input$years[1] & Year <= input$years[2]) 
-        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(9:30)))))
+          # mutate( Title = if_else(is.na(Link),
+          #                                   Title,
+          #                                   paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))) 
+        
+        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(8:29)))),
+                  escape = FALSE #  makes HTML entities in the table not escaped
+                  )
             })
+    
+    output$table_AR <- DT::renderDataTable({
+      data_AR <- data_AR %>%
+        filter(Type %in% input$type2 ) 
+      datatable(data_AR,
+                escape = FALSE,
+                rownames= FALSE)
+    })
 }
 
 ### Run the application ###
