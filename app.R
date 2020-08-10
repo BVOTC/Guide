@@ -38,22 +38,11 @@ Sys.setenv(LANG = "en")
 #data$item_format_2 <- data$item_format_2 %>% 
  # replace(data$item_format_2 == "Book - Entire" | data$item_format_2 == "Book - Chapter", "Book") 
 
-#save(data, file = "data/data.Rdata")
+# data[, 9:29] <- ifelse(data[, 9:29] == "NULL", 0, 1)  
+
+# save(data, file = "data/data.Rdata")
 
 load(file = "data/data.Rdata")
-
-tweaks <- 
-  list(tags$head(tags$style(HTML("
-                                 .multicol { 
-                                   height: 200px;
-                                   -webkit-column-count: 4; /* Chrome, Safari, Opera */ 
-                                   -moz-column-count: 4;    /* Firefox */ 
-                                   column-count: 4; 
-                                   -moz-column-fill: auto;
-                                   -column-fill: auto;
-                                 } 
-                                 ")) 
-  ))
 
 library(rsconnect)
 
@@ -93,25 +82,35 @@ ui <- fluidPage(
                                           "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       br(),
-                      tweaks,
                       fluidRow(
                         column(8, offset = 2,
                                wellPanel(
-                                 tags$div(align = 'left', 
-                                          class = 'multicol',
-                                          h5(checkboxGroupInput(inputId = "keyword",
-                                                    label = h3("Themes & Keywords"),
-                                                    choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
-                                                                "Community Organizing and Citizen Participation",
-                                                                "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
-                                                                "Development and Gentrification", "Feminist and Queer Urbanism",
-                                                                "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
-                                                                "Mapping and GIS", "Municipal Policy and Governance", 
-                                                                "Planning Practice","Politics of Land and Property", "Public Space", 
-                                                                "Racial and Social Justice", "Segregation and Redlining",
-                                                                "Sustainability, Environment, and Health","Transportation"),
-                                                    selected = "Being Black in Planning Practice and Education",
-                                                    inline = FALSE))),
+                                 column(6,
+                                        h5(selectInput(inputId = "keyword_left",
+                                                       label = h3("Themes & Keywords"),
+                                                       choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
+                                                                   "Community Organizing and Citizen Participation",
+                                                                   "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
+                                                                   "Development and Gentrification", "Feminist and Queer Urbanism",
+                                                                   "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
+                                                                   "Mapping and GIS", "Municipal Policy and Governance", 
+                                                                   "Planning Practice","Politics of Land and Property", "Public Space", 
+                                                                   "Racial and Social Justice", "Segregation and Redlining",
+                                                                   "Sustainability, Environment, and Health","Transportation"),
+                                                       selected = "Being Black in Planning Practice and Education"))),
+                                 column(6,
+                                        h5(selectInput(inputId = "keyword_right",
+                                                       label = h3("Themes & Keywords"),
+                                                       choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
+                                                                   "Community Organizing and Citizen Participation",
+                                                                   "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
+                                                                   "Development and Gentrification", "Feminist and Queer Urbanism",
+                                                                   "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
+                                                                   "Mapping and GIS", "Municipal Policy and Governance", 
+                                                                   "Planning Practice","Politics of Land and Property", "Public Space", 
+                                                                   "Racial and Social Justice", "Segregation and Redlining",
+                                                                   "Sustainability, Environment, and Health","Transportation"),
+                                                       selected = "Architecture and Urban Design"))),
                                  h5(checkboxGroupInput(inputId = "type",
                                                     label = h3("Media Type"),
                                                     choices = unique(data$item_format_2),
@@ -121,7 +120,7 @@ ui <- fluidPage(
                                            label = h3("Year Released"),
                                            1850, 2020, 
                                            value = c(1850, 2020),
-                                           sep = "")))),
+                                           sep = ""))))
                       ),
                       br(),
                       fluidRow(
@@ -342,29 +341,12 @@ ui <- fluidPage(
 server <- function(input, output) {
   
     output$table <- DT::renderDataTable({
-        data <- data %>%
-            filter(`Sustainability, Environment, and Health` %in% input$keyword |
-                     `Racial and Social Justice` %in% input$keyword |
-                     `Development and Gentrification` %in% input$keyword |
-                     `Community Organizing and Citizen Participation` %in% input$keyword |
-                     `Culture, Placemaking, and Black Geographies` %in% input$keyword |
-                     `Politics of Land and Property` %in% input$keyword |
-                     `Transportation` %in% input$keyword |
-                     `Architecture and Urban Design` %in% input$keyword |
-                     `History of Cities and Urban Planning` %in% input$keyword |
-                     `Being Black in Planning Practice and Education` %in% input$keyword |
-                     `Public Space` %in% input$keyword |
-                     `Municipal Policy and Governance` %in% input$keyword |
-                     `Mapping and GIS` %in% input$keyword |
-                     `Segregation and Redlining` %in% input$keyword |
-                     `Housing` %in% input$keyword |
-                     `Feminist and Queer Urbanism` %in% input$keyword |
-                     `Crime, Policing, and Surveillance` %in% input$keyword |
-                     `Global Perspectives` %in% input$keyword |
-                     `Planning Practice` %in% input$keyword,
-                   item_format_2 %in% input$type,
-                    Year >= input$years[1] & Year <= input$years[2]) 
-        datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(9:30)))))
+      
+      data <- data %>%
+        dplyr::select (input$keyword_left, input$keyword_right)
+     
+      datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(30)))))
+        
             })
 }
 
