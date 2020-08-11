@@ -61,7 +61,8 @@ load(file = "data/data.Rdata")
 
 data <- data  %>%   mutate( Title = if_else(is.na(Link),
                                             Title,
-                                            paste0("<a href='",Link,"' target='_blank'>", Title,"</a>")))
+                                            paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))) %>%
+  rename(Author = `Author Name`, `Additional Authors` = `Author Other`)
 
 library(rsconnect)
 
@@ -417,10 +418,24 @@ server <- function(input, output) {
     }
 
     
-    datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(8:28))), pageLength = 20),
+    datatable(data, options = list(autoWidth = TRUE,
+                                   scrollX=TRUE,
+                                   
+                                   columnDefs = list(
+                                     list(targets=c(1), visible=TRUE, width = '14%'),
+                                     list(targets=c(2), visible=TRUE, width='8%'),
+                                     list(targets=c(3), visible=TRUE, width='30%'),
+                                     list(targets=c(4), visible=TRUE, width='5%'),
+                                     list(targets=c(5), visible=TRUE, width='15%'),
+                                     list(targets=c(6), visible=TRUE, width='15%'),
+                                     list(targets=c(7), visible=TRUE, width='13%'),
+                                     list(targets = c(0,8:28), visible = FALSE)),
+                                   pageLength = 20),
               escape = FALSE #  makes HTML entities in the table not escaped (allows hyperlinks in table)
     )
   })
+  
+
   
   output$table_AR <- DT::renderDataTable({
     data_AR <- data_AR %>%
