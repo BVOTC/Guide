@@ -17,7 +17,7 @@ Sys.setenv(LANG = "en")
 ######### Import guide data ################################
 
 ## Load data
-data <- read_csv("data/Guide_Sources.csv")
+#data <- read_csv("data/Guide_Sources.csv")
 
 
 ## Put data in order
@@ -74,8 +74,7 @@ tweaks <-
                                    -moz-column-fill: auto;
                                    -column-fill: auto;
                                  } 
-                                 ")) 
-  ))
+                                 "))  ))
 
 library(rsconnect)
 
@@ -230,12 +229,10 @@ ui <- fluidPage(
                                           They have also documented successful urban social movements and advocacy efforts within Black
                                           communities. While such materials are important to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and work of Black creators.")))
-                        )),
+                                          and work of Black creators.")))  )),
                       br(),
                       br(),
-                      br()
-             ),
+                      br() ),
              
              tabPanel("How To Use This Guide",
                       fluidRow(
@@ -325,11 +322,10 @@ ui <- fluidPage(
                                wellPanel(
                                  tags$div(align = 'left',
                                           
-                                          h5(checkboxGroupInput(inputId = "type2",
+                                          h5(radioButtons(inputId = "type2",
                                                                 label =  h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."),
                                                                 choices = unique(data_AR$Type),
-                                                                selected = unique(data_AR$Type),
-                                                                inline = T))  ))    ) ),
+                                                                inline = FALSE))  ))    ) ),
                       br(),
                       fluidRow(
                         column(8,offset = 2,
@@ -438,7 +434,7 @@ server <- function(input, output) {
 
     
     datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(8:28))), pageLength = 20),
-              escape = FALSE #  makes HTML entities in the table not escaped
+              escape = FALSE #  makes HTML entities in the table not escaped (allows hyperlinks in table)
     )
   })
   
@@ -446,9 +442,11 @@ server <- function(input, output) {
     data_AR <- data_AR %>%
       filter(Type %in% input$type2 ) 
     datatable(data_AR,
+              
               escape = FALSE,
               rownames= FALSE,
-              options = list(pageLength = 20
+              options = list(pageLength = 20,
+                             columnDefs = list(list(visible=FALSE, targets= c(0)))
                              ))
   })
 }
