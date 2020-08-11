@@ -9,40 +9,73 @@ library(shinythemes)
 library(shinyWidgets)
 library(DT)
 
+
+
 Sys.setenv(LANG = "en")
 
+
+######### Import guide data ################################
+
 ## Load data
-#data <- read_csv("data/Guide_Sources.csv")
+data <- read_csv("data/Guide_Sources.csv")
+
 
 ## Put data in order
 # data <- data %>% 
-#  select(1:2, 4, 3, 5:7, 12, 8:11)
+ # select(1:2, 4, 3, 5:7, 14, 12, 13, 8:11)
 
 # Pivot Longer
 #data <- data %>% 
-#  pivot_longer(cols = 9:12,
-#              names_to = "Theme Type",
-#              values_to = "Themes") %>% 
-#  select(-9)
+ # pivot_longer(cols = 11:14,
+  #            names_to = "Theme Type",
+   #           values_to = "Themes") %>% 
+#  select(-11)
 
 # Pivot Wider
 #data <- data %>% 
 #  pivot_wider(names_from = Themes,
 #               values_from = Themes) %>% 
-#  select(-12)
+#  select(-14)
 
 # Create new Item Format column (remove book redundancy)
 #data <- data %>% 
- # mutate(item_format_2 = `Item Format`)
+# mutate(item_format_2 = `Item Format`)
 
 #data$item_format_2 <- data$item_format_2 %>% 
- # replace(data$item_format_2 == "Book - Entire" | data$item_format_2 == "Book - Chapter", "Book") 
-
-# data[, 9:29] <- ifelse(data[, 9:29] == "NULL", 0, 1)  
+# replace(data$item_format_2 == "Book - Entire" | data$item_format_2 == "Book - Chapter", "Book") 
 
 # save(data, file = "data/data.Rdata")
 
+###### Import additional resources data ###############################
+
+data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
+  mutate( Name = if_else(is.na(Link),
+                         Name,
+                         paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
+  select(Type, Name, Notes = Description)
+
+###### Webpage layout ################################################
+
 load(file = "data/data.Rdata")
+
+
+data <- data  %>%   mutate( Title = if_else(is.na(Link),
+                                            Title,
+                                            paste0("<a href='",Link,"' target='_blank'>", Title,"</a>")))
+
+
+tweaks <- 
+  list(tags$head(tags$style(HTML("
+                                 .multicol { 
+                                   height: 200px;
+                                   -webkit-column-count: 3; /* Chrome, Safari, Opera */ 
+                                   -moz-column-count: 3;    /* Firefox */ 
+                                   column-count: 3; 
+                                   -moz-column-fill: auto;
+                                   -column-fill: auto;
+                                 } 
+                                 ")) 
+  ))
 
 library(rsconnect)
 
@@ -66,61 +99,62 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;", 
                                           h4("Black Voices on the City is a student-organized database that 
                                           aims to accomplish two things: first, to catalog the contributions
-                                          of black researchers and practitioners to the field of urban planning
+                                          of black researchers and practitioners to the field of urban planning,
                                           and second, to amplify the unique voices and perspectives they bring to
                                           a field that has been overwhelmingly dominated by white, cisgender,
                                           heterosexual men since its beginnings. As current students and alumni 
                                           of urban planning programs, we feel that the best way to channel our 
                                           frustrations with the anti-Black racism left unacknowledged in our 
-                                          classrooms and curriculum is to lead by example, proactively seeking out
+                                          classrooms and curricula is to lead by example, proactively seeking out
                                           and learning from Black planners and scholars. This guide is just one part
                                           of a larger, nascent effort to organize students and faculty around 
                                           re-imagining what constitutes urban planning and who contributes to that dialogue."))),
                                helpText(p(style="text-align: justify;", 
                                           h4("If you would like to contribute a resource to this database, please use our", 
-                                          tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
-                                          "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
+                                             tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
+                                             "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       br(),
+                      tweaks,
                       fluidRow(
                         column(8, offset = 2,
                                wellPanel(
-                                 column(6,
-                                        h5(selectInput(inputId = "keyword_left",
-                                                       label = h3("Themes & Keywords"),
-                                                       choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
-                                                                   "Community Organizing and Citizen Participation",
-                                                                   "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
-                                                                   "Development and Gentrification", "Feminist and Queer Urbanism",
-                                                                   "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
-                                                                   "Mapping and GIS", "Municipal Policy and Governance", 
-                                                                   "Planning Practice","Politics of Land and Property", "Public Space", 
-                                                                   "Racial and Social Justice", "Segregation and Redlining",
-                                                                   "Sustainability, Environment, and Health","Transportation"),
-                                                       selected = "Being Black in Planning Practice and Education"))),
-                                 column(6,
-                                        h5(selectInput(inputId = "keyword_right",
-                                                       label = h3("Themes & Keywords"),
-                                                       choices = c("Architecture and Urban Design", "Being Black in Planning Practice and Education",
-                                                                   "Community Organizing and Citizen Participation",
-                                                                   "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
-                                                                   "Development and Gentrification", "Feminist and Queer Urbanism",
-                                                                   "Global Perspectives", "History of Cities and Urban Planning", "Housing", 
-                                                                   "Mapping and GIS", "Municipal Policy and Governance", 
-                                                                   "Planning Practice","Politics of Land and Property", "Public Space", 
-                                                                   "Racial and Social Justice", "Segregation and Redlining",
-                                                                   "Sustainability, Environment, and Health","Transportation"),
-                                                       selected = "Architecture and Urban Design"))),
+                                 tags$div(align = 'left', 
+                                          class = 'multicol',
+                                          h5(radioButtons(inputId = "keyword",
+                                                                label = h3("Themes & Keywords"),
+                                                                choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
+                                                                            "Community Organizing and Citizen Participation",
+                                                                            "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
+                                                                            "Development and Gentrification", "Feminist and Queer Urbanism", 
+                                                                            "Mapping and GIS", "Municipal Policy and Governance", 
+                                                                            "Politics of Land, Property, and Colonialism", 
+                                                                            "Public Housing and Cooperatives", "Public Space and Parks", 
+                                                                            "Racial and Social Justice", "Segregation and Redlining",
+                                                                            "Sustainability, Environment, and Health","Transportation", "Urban History"),
+                                                                selected = "Architecture and Urban Design",
+                                                                inline = FALSE))),
                                  h5(checkboxGroupInput(inputId = "type",
-                                                    label = h3("Media Type"),
-                                                    choices = unique(data$item_format_2),
-                                                    selected = unique(data$item_format_2),
-                                                    inline = T)),
+                                                       label = h3("Media Type"),
+                                                       choices = unique(data$item_format_2),
+                                                       selected = unique(data$item_format_2),
+                                                       inline = T)),
                                  h5(sliderInput (inputId = "years",
-                                           label = h3("Year Released"),
-                                           1850, 2020, 
-                                           value = c(1850, 2020),
-                                           sep = ""))))
+                                                 label = h3("Year Released"),
+                                                 1850, 2020, 
+                                                 value = c(1850, 2020),
+                                                 sep = "")),
+                                 h5(selectInput(inputId = "location",
+                                                 label = h3("Location"),
+                                                 choices = c("All", "United States", "Canada", "Global"),
+                                                 selected = "All",
+                                                width = "25%"),
+                                    selectInput(inputId = "language",
+                                                label = h3("Language"),
+                                                choices = c("All", "English", "French"),
+                                                selected = "All",
+                                                width = "25%"))
+                                 ))
                       ),
                       br(),
                       fluidRow(
@@ -148,58 +182,58 @@ ui <- fluidPage(
                                           h4("One of the most important guiding questions in anti-racism teachings
                                is “Who am I/who are we to do this work?” We owe users of this guide our answer 
                                to that question so they can hold us accountable as we exercise our privileges to
-                               fight anti-Black racism in the field of urban planning. First and foremost, we are
-                               a group of largely non-Black graduate students and alumni whose lives have benefited
-                               from intersections with other forms of privilege, including being male and cisgender
-                               as well as having access to family wealth and higher education. Some of us also identify
-                               as queer, feminist, and immigrants. We come to this work with a recognition that these
+                               fight anti-Black racism in the field of urban planning. We are
+                               a group of majority non-Black graduate students and alumni whose lives have benefited
+                               from intersections with other forms of privilege, such as being male and cisgender
+                              or having access to family wealth and higher education. Some of us also identify
+                               as queers, feminists, and immigrants. We come to this work with a recognition that these
                                identities produce a number of limitations and blindspots, which is why we are calling
-                               in everyone with an interest in tackling anti-Blackness within urban planning to collaborate
+                               on everyone with an interest in tackling anti-Blackness within urban planning to collaborate
                                with us and critique our work."))),
                                helpText(p(style="text-align: justify;",
                                           h4("For additional information on how we inform our allyship, please see Amélie Lamont’s",
-                                          tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
+                                             tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
                                br(),
                                helpText(h3("Acknowledgements"), align="center"),
                                helpText(p(style="text-align: justify;", 
-                               h4("This guide is indebted first and foremost to the scholars, authors and creators
+                                          h4("This guide is indebted first and foremost to the scholars, authors and creators
                                           listed here. It is also the result of the collective effort of students, alumni
                                           and others, who have dedicated their time and resources to changing the ways in
                                           which we learn what planning is and who planners are. Finally, we would like to
                                           acknowledge the efforts of individuals and organizations who have also created
-                                          complementary resource lists and guides on anti-Blackness and anti-racism in
-                                          urban planning, all of which have helped  (see Additional Resources).")))
-                                 )),
+                                          resource lists on anti-Blackness and anti-racism in planning and related fields, 
+                                          which have helped in the creation of this guide  (see Additional Resources).")))
+                        )),
                       br(),
                       fluidRow(
                         column(4, offset = 2,
-                                        helpText(h3("What’s In This Guide"), align="center"),
-                                        helpText(p(style="text-align: justify;", 
-                                                   h4("This guide attempts to collect and curate the contributions of Black planners,
+                               helpText(h3("What’s In This Guide"), align="center"),
+                               helpText(p(style="text-align: justify;", 
+                                          h4("This guide attempts to collect and curate the contributions of Black planners,
                                           scholars, artists, writers, organizers and practitioners from a variety of fields
                                           that are concerned with the process of organizing space and place in the urban
                                           environment. The works listed here represent both traditional planning preoccupations
                                           such as housing policy, transportation planning and urban design, as well as more
                                           interdisciplinary fields like urban sociology, cultural history, and Black-centered
                                           approaches to community building and organizing. Users will also find a number of
-                                          critical approaches and novel methodologies employed to de-center Whiteness in the
+                                          critical approaches and novel methodologies employed to de-center whiteness in the
                                           analysis of urban issues. Finally, while the majority of resources are books or journal
-                                          articles, we have also endeavored to include various media such as films, podcasts, essays,
+                                          articles, we have also endeavored to include various media such as videos
                                           and online essays.")))
-                                 ),
+                        ),
                         column(4,
-                                        helpText(h3("What’s NOT In This Guide"), align="center"),
-                                        helpText(p(style="text-align: justify;", 
-                                                   h4("Simply put, this guide does not include non-Black people writing about Black people.
+                               helpText(h3("What’s NOT In This Guide"), align="center"),
+                               helpText(p(style="text-align: justify;", 
+                                          h4("Simply put, this guide does not include non-Black people writing about Black people.
                                           A wealth of important scholarship by non-Black scholars and planners exists on the racist
-                                          practices embedded within urban planning, i.e. redlining, gentrification and “urban renewal.”
+                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
                                           They have also documented successful urban social movements and advocacy efforts within Black
-                                          communities. While such materials are essential to a comprehensive understanding of the historical,
+                                          communities. While such materials are important to a comprehensive understanding of the historical,
                                           social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and works of Black creators.")))
-                                 )),
-                               br(),
-                               br(),
+                                          and work of Black creators.")))
+                        )),
+                      br(),
+                      br(),
                       br()
              ),
              
@@ -226,23 +260,23 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;",
                                           h4("... this means ensuring that syllabi and class discussions engage with
                                           the writings and practice of Black planners, both historically and today. While 
-                                          current curriculum may acknowledge historical planning racism, such as urban renewal,
+                                          current curricula may acknowledge historical racism in planning, 
                                           graduates of urban planning programs need exposure to the wealth of recent Black
                                           scholarship that addresses the forms of racism we will encounter in our professional
-                                          lives. More importantly, this means including such materials in all areas of planning.
-                                          Not all of these materials focus on racial issues, and it is essential not to limit the
+                                          lives. If you are uncomfortable in presenting the material,  especially if you are white, 
+                                          then this is an opportunity to learn and grow with your students, not an excuse to opt out.
+                                          At the same time, not all of the materials inlcuded in this guide focus on racial issues, 
+                                          and it is essential to not limit the
                                           authority of these writers to issues of race. They are experts and leaders in their
                                           respective fields, including transportation, sustainability, and urban governance,
-                                          and should be treated as such in undergraduate and graduate planning courses. If you are
-                                          uncomfortable in presenting the material, especially if you are White, then this is an opportunity
-                                          to learn and grow with your students, not an excuse to opt out."))),
+                                          and should be treated as such in undergraduate and graduate planning courses."))),
                                br(),
                                helpText(h3("For Students...")),
                                helpText(p(style="text-align: justify;",
                                           h4("... this guide is a call to action. You should use it to organize with your peers to
                                           insist that more diverse perspectives from the field are included in your education - not just Black
-                                          voices, but also those of women, scholars of color/visible minorities, LGBTQ folks, individuals
-                                          with altered mobility, and both indigineous and immigrant communities. You should also use it as
+                                          voices, but also those of women, people of color/visible minorities, Indigenous peoples, LGBTQ folks, individuals
+                                          with altered mobility, and immigrant communities. You should also use it as
                                           a resource for personal learning and as source material for your coursework. Every essay, term paper
                                           or thesis is an opportunity to read, learn from, and cite Black sources. It also an opportunity to push
                                           the boundaries of what constitutes “appropriate” source material for academic work. You will find videos,
@@ -261,7 +295,7 @@ ui <- fluidPage(
                                           available through your local bookstores."))),
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          h4("Please report any broken links to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
+                                          h4("Please report any broken links or corrections to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
                                br(),
                                br()
                         ))
@@ -276,94 +310,149 @@ ui <- fluidPage(
                         column(8, offset = 2,
                                titlePanel(h1("Additional Resources")))),
                       br(),
+                      
                       hr(),
+                      #   
+                      # fluidRow(
+                      #   column(8, offset = 2,
+                      #          br(),
+                      #          helpText(p(style="text-align: justify;", 
+                      #                     h4("Here you can find a very inexhaustive list of Black-led urbanist organisations and media, as well as complementary resource lists."))))),
+                      # br(),
+                      
                       fluidRow(
-                        column(4, offset = 2,
-                               br(),
-                               helpText(h3("Related Resource Guides")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0#resources",
-                                                 "The National Museum of African American History and Culture")))),
-                               br(),
-                               helpText(h3("Organizations")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "www.urbanconsulate.com",
-                                                 "Urban Consulate")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://blackcommunity.planning.org/",
-                                                 "APA Planning and the Black Community Division")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://noma.net/",
-                                                 "National Organization of Minority Architects")))),
-                               br(),
-                               helpText(h3("People and Organizations on Social Media")),
-                               helpText(p(style="text-align: justify;",
-                                          h4("*Note: Please follow these accounts but be mindful of not overwhelming black practitioners with
-                                 requests for collaboration or other questions unless you know them personally or had a working
-                                 relationship with them before listening to black voices became trendy."))),
-                               br(),
-                               helpText(p(style="text-align: justify;",
-                                          h4("BlackSpace (Insta: @blackspaceorg)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Kristen Jeffers, The Black Urbanist (Insta: @blackurbanist)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Black Urbanism (Insta: @blackurbanism)"))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Brentin Mock, City Lab (Twitter: @Brentinmock)")))
-                        ),
-                        column(4,
-                               br(),
-                               helpText(h3("General Links")),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nextcity.org/daily/entry/black-people-have-been-building-a-better-world-who-will-join-them",
-                                                 "'Black People Have Been Building a Better World. Who Will Join Them?', NextCity")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://nmaahc.si.edu/shifting-landscape-black-architects-and-planners-1968-now-0",
-                                                 "'Shifting the Landscape: Black Architects and Planners, 1968 to Now'. National Museum of African American History and Culture")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://la.curbed.com/maps/los-angeles-black-architects-projects-map",
-                                                 "'Mapped: 20 places in LA where black architects left their mark'. Curbed Los Angeles")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://publicdomain.nypl.org/greenbook-map/",
-                                                 "'Navigating the Green Book'. New York Public Library")))),
-                               helpText(p(style="text-align: justify;",
-                                          h4(tags$a(href = "https://www.blackspace.org/neighborhood-strategy ",
-                                                 "'Co-Designing Black Neighborhood Heritage Conservation Playbook'. BlackSpace"))))
-                        )
-                      ),
+                        column(8, offset = 2,
+                               wellPanel(
+                                 tags$div(align = 'left',
+                                          
+                                          h5(checkboxGroupInput(inputId = "type2",
+                                                                label =  h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."),
+                                                                choices = unique(data_AR$Type),
+                                                                selected = unique(data_AR$Type),
+                                                                inline = T))  ))    ) ),
                       br(),
-                      br()
-             )
-  )
-)
+                      fluidRow(
+                        column(8,offset = 2,
+                               dataTableOutput("table_AR"))),
+                      br(),
+                      br()  )            
+  ))
 
 ### Server ###
 server <- function(input, output) {
   
-    output$table <- DT::renderDataTable({
-      
+  output$table <- DT::renderDataTable({
+
+      if (input$location == "All" & input$language == "All"){
+        data <- data %>%
+          filter(`Sustainability, Environment, and Health` %in% input$keyword |
+                   `Racial and Social Justice` %in% input$keyword |
+                   `Development and Gentrification` %in% input$keyword |
+                   `Community Organizing and Citizen Participation` %in% input$keyword |
+                   `Culture, Placemaking, and Black Geographies` %in% input$keyword |
+                   `Politics of Land, Property, and Colonialism` %in% input$keyword |
+                   `Transportation` %in% input$keyword |
+                   `Architecture and Urban Design` %in% input$keyword |
+                   `Urban History` %in% input$keyword |
+                   `Black Perspectives on Planning Practice and Education` %in% input$keyword |
+                   `Public Space and Parks` %in% input$keyword |
+                   `Municipal Policy and Governance` %in% input$keyword |
+                   `Mapping and GIS` %in% input$keyword |
+                   `Segregation and Redlining` %in% input$keyword |
+                   `Public Housing and Cooperatives` %in% input$keyword |
+                   `Feminist and Queer Urbanism` %in% input$keyword |
+                   `Crime, Policing, and Surveillance` %in% input$keyword,
+                 item_format_2 %in% input$type,
+                 Year >= input$years[1] & Year <= input$years[2])}
+      else if (input$location != "All" & input$language == "All") {
+        data <- data %>%
+          filter(`Sustainability, Environment, and Health` %in% input$keyword |
+                   `Racial and Social Justice` %in% input$keyword |
+                   `Development and Gentrification` %in% input$keyword |
+                   `Community Organizing and Citizen Participation` %in% input$keyword |
+                   `Culture, Placemaking, and Black Geographies` %in% input$keyword |
+                   `Politics of Land, Property, and Colonialism` %in% input$keyword |
+                   `Transportation` %in% input$keyword |
+                   `Architecture and Urban Design` %in% input$keyword |
+                   `Urban History` %in% input$keyword |
+                   `Black Perspectives on Planning Practice and Education` %in% input$keyword |
+                   `Public Space and Parks` %in% input$keyword |
+                   `Municipal Policy and Governance` %in% input$keyword |
+                   `Mapping and GIS` %in% input$keyword |
+                   `Segregation and Redlining` %in% input$keyword |
+                   `Public Housing and Cooperatives` %in% input$keyword |
+                   `Feminist and Queer Urbanism` %in% input$keyword |
+                   `Crime, Policing, and Surveillance` %in% input$keyword,
+                 item_format_2 %in% input$type,
+                 Year >= input$years[1] & Year <= input$years[2],
+                 Location == input$location) 
+      }
+    else if (input$location == "All" & input$language != "All") {
       data <- data %>%
-        dplyr::select (input$keyword_left, input$keyword_right)
-     
-      datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(30)))))
-        
-            })
+        filter(`Sustainability, Environment, and Health` %in% input$keyword |
+                 `Racial and Social Justice` %in% input$keyword |
+                 `Development and Gentrification` %in% input$keyword |
+                 `Community Organizing and Citizen Participation` %in% input$keyword |
+                 `Culture, Placemaking, and Black Geographies` %in% input$keyword |
+                 `Politics of Land, Property, and Colonialism` %in% input$keyword |
+                 `Transportation` %in% input$keyword |
+                 `Architecture and Urban Design` %in% input$keyword |
+                 `Urban History` %in% input$keyword |
+                 `Black Perspectives on Planning Practice and Education` %in% input$keyword |
+                 `Public Space and Parks` %in% input$keyword |
+                 `Municipal Policy and Governance` %in% input$keyword |
+                 `Mapping and GIS` %in% input$keyword |
+                 `Segregation and Redlining` %in% input$keyword |
+                 `Public Housing and Cooperatives` %in% input$keyword |
+                 `Feminist and Queer Urbanism` %in% input$keyword |
+                 `Crime, Policing, and Surveillance` %in% input$keyword,
+               item_format_2 %in% input$type,
+               Year >= input$years[1] & Year <= input$years[2],
+               Language == input$language) 
+    }
+    
+    else {
+      data <- data %>%
+        filter(`Sustainability, Environment, and Health` %in% input$keyword |
+                 `Racial and Social Justice` %in% input$keyword |
+                 `Development and Gentrification` %in% input$keyword |
+                 `Community Organizing and Citizen Participation` %in% input$keyword |
+                 `Culture, Placemaking, and Black Geographies` %in% input$keyword |
+                 `Politics of Land, Property, and Colonialism` %in% input$keyword |
+                 `Transportation` %in% input$keyword |
+                 `Architecture and Urban Design` %in% input$keyword |
+                 `Urban History` %in% input$keyword |
+                 `Black Perspectives on Planning Practice and Education` %in% input$keyword |
+                 `Public Space and Parks` %in% input$keyword |
+                 `Municipal Policy and Governance` %in% input$keyword |
+                 `Mapping and GIS` %in% input$keyword |
+                 `Segregation and Redlining` %in% input$keyword |
+                 `Public Housing and Cooperatives` %in% input$keyword |
+                 `Feminist and Queer Urbanism` %in% input$keyword |
+                 `Crime, Policing, and Surveillance` %in% input$keyword,
+               item_format_2 %in% input$type,
+               Year >= input$years[1] & Year <= input$years[2],
+               Language == input$language,
+               Location == input$location) 
+    }
+
+    
+    datatable(data, options = list(columnDefs = list(list(visible = FALSE, targets = c(8:28))), pageLength = 20),
+              escape = FALSE #  makes HTML entities in the table not escaped
+    )
+  })
+  
+  output$table_AR <- DT::renderDataTable({
+    data_AR <- data_AR %>%
+      filter(Type %in% input$type2 ) 
+    datatable(data_AR,
+              escape = FALSE,
+              rownames= FALSE,
+              options = list(pageLength = 20
+                             ))
+  })
 }
 
 ### Run the application ###
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
