@@ -63,19 +63,6 @@ data <- data  %>%   mutate( Title = if_else(is.na(Link),
                                             Title,
                                             paste0("<a href='",Link,"' target='_blank'>", Title,"</a>")))
 
-
-tweaks <- 
-  list(tags$head(tags$style(HTML("
-                                 .multicol { 
-                                   height: 200px;
-                                   -webkit-column-count: 3; /* Chrome, Safari, Opera */ 
-                                   -moz-column-count: 3;    /* Firefox */ 
-                                   column-count: 3; 
-                                   -moz-column-fill: auto;
-                                   -column-fill: auto;
-                                 } 
-                                 "))  ))
-
 library(rsconnect)
 
 ### UI ###
@@ -114,15 +101,12 @@ ui <- fluidPage(
                                              "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       br(),
-                      tweaks,
                       fluidRow(
                         column(8, offset = 2,
                                wellPanel(
-                                 tags$div(align = 'left', 
-                                          class = 'multicol',
-                                          h5(radioButtons(inputId = "keyword",
-                                                                label = h3("Themes & Keywords"),
-                                                                choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
+                                 h5(radioButtons(inputId = "keyword",
+                                                 label = h3("Themes & Keywords"),
+                                                 choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
                                                                             "Community Organizing and Citizen Participation",
                                                                             "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
                                                                             "Development and Gentrification", "Feminist and Queer Urbanism", 
@@ -132,7 +116,7 @@ ui <- fluidPage(
                                                                             "Racial and Social Justice", "Segregation and Redlining",
                                                                             "Sustainability, Environment, and Health","Transportation", "Urban History"),
                                                                 selected = "Architecture and Urban Design",
-                                                                inline = FALSE))),
+                                                                inline = T)),
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
                                                        choices = unique(data$item_format_2),
