@@ -17,34 +17,35 @@ Sys.setenv(LANG = "en")
 ######### Import guide data ################################
 
 ## Load data
-#data <- read_csv("data/Guide_Sources.csv")
+data <- read_csv("data/Guide_Sources.csv") %>%
 
-
-## Put data in order
-# data <- data %>% 
- # select(1:2, 4, 3, 5:7, 14, 12, 13, 8:11)
-
-# Pivot Longer
-#data <- data %>% 
- # pivot_longer(cols = 11:14,
-  #            names_to = "Theme Type",
-   #           values_to = "Themes") %>% 
-#  select(-11)
+  # Pivot Longer
+  select(1:14) %>%
+pivot_longer(cols = 11:14,
+           names_to = "Theme Type",
+          values_to = "Themes") %>%
+ select(-11) %>%
 
 # Pivot Wider
-#data <- data %>% 
-#  pivot_wider(names_from = Themes,
-#               values_from = Themes) %>% 
-#  select(-14)
+ pivot_wider(names_from = Themes,
+              values_from = Themes) %>%
+ select(-14) %>%
 
-# Create new Item Format column (remove book redundancy)
-#data <- data %>% 
-# mutate(item_format_2 = `Item Format`)
+  mutate(
+    # Create new Item Format column (remove book redundancy)
+    
+          item_format_2 = `Media Format` %>%
+                          replace(`Media Format` == "Book - Entire" |
+                                    `Media Format` == "Book - Chapter", 
+                                  "Book"),
+         
+         ##Embed hyperlinks in the item titles
+          Title = if_else(is.na(Link),
+                Title,
+                paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))  ) 
 
-#data$item_format_2 <- data$item_format_2 %>% 
-# replace(data$item_format_2 == "Book - Entire" | data$item_format_2 == "Book - Chapter", "Book") 
 
-# save(data, file = "data/data.Rdata")
+#save(data, file = "data/data.Rdata")
 
 ###### Import additional resources data ###############################
 
@@ -54,15 +55,12 @@ data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
                          paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
   select(Type, Name, Notes = Description)
 
+
+
 ###### Webpage layout ################################################
 
-load(file = "data/data.Rdata")
+#load(file = "data/data.Rdata")
 
-
-data <- data  %>%   mutate( Title = if_else(is.na(Link),
-                                            Title,
-                                            paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))) %>%
-  rename(Author = `Author Name`, `Additional Authors` = `Author Other`)
 
 library(rsconnect)
 
@@ -130,7 +128,7 @@ ui <- fluidPage(
                                                  sep = "")),
                                  h5(selectInput(inputId = "location",
                                                  label = h3("Location"),
-                                                 choices = c("All", "United States", "Canada", "Global"),
+                                                 choices = c("All", "United States", "Canada", "Beyond North America"),
                                                  selected = "All",
                                                 width = "25%"),
                                     selectInput(inputId = "language",
@@ -294,13 +292,12 @@ ui <- fluidPage(
                       br(),
                       
                       hr(),
-                      #   
-                      # fluidRow(
-                      #   column(8, offset = 2,
-                      #          br(),
-                      #          helpText(p(style="text-align: justify;", 
-                      #                     h4("Here you can find a very inexhaustive list of Black-led urbanist organisations and media, as well as complementary resource lists."))))),
-                      # br(),
+
+                      fluidRow(
+                        column(8, offset = 2,
+                               helpText(p(style="text-align: justify;",
+                                          h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."))))),
+                      br(),
                       
                       fluidRow(
                         column(8, offset = 2,
@@ -308,7 +305,7 @@ ui <- fluidPage(
                                  tags$div(align = 'left',
                                           
                                           h5(radioButtons(inputId = "type2",
-                                                                label =  h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."),
+                                                          label = NULL,
                                                                 choices = unique(data_AR$Type),
                                                                 inline = FALSE))  ))    ) ),
                       br(),
@@ -433,7 +430,7 @@ server <- function(input, output) {
                                    pageLength = 20),
               escape = FALSE #  makes HTML entities in the table not escaped (allows hyperlinks in table)
     )
-  })
+  })  
   
 
   
@@ -444,9 +441,15 @@ server <- function(input, output) {
               
               escape = FALSE,
               rownames= FALSE,
-              options = list(pageLength = 20,
-                             columnDefs = list(list(visible=FALSE, targets= c(0)))
-                             ))
+              options = list( #autoWidth = TRUE,
+                             #scrollX=TRUE,
+                             pageLength = 20,
+                             columnDefs = list(
+                                               list(targets= c(0), visible=FALSE)
+                                              #  list(targets=c(1), visible=TRUE, width = '40%'),
+                                              # list(dom='t',ordering=F, targets=c(2), visible=TRUE, width='60%')
+                                               ) )
+              )
   })
 }
 
