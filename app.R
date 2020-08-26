@@ -67,20 +67,20 @@ library(rsconnect)
 ### UI ###
 
 ui <- fluidPage(
+  br(),
   includeCSS("www/bootstrap.css"),
-  navbarPage("BVOTC",
-             tabPanel("Resource Guide",
+  navbarPage("",
+             tabPanel("The Guide",
                       fluidRow(
-                        column(4, offset = 5,
-                               img(src='Logo-Dark-Fresno-6.png', width="200", align="center"))),
-                      fluidRow(
-                        column(8, offset = 2,
-                               titlePanel(h1("Black Voices on the City: Resource Guide")))),
+                        column(4, offset = 1,
+                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
                       br(),
-                      hr(),
+                      br(),
                       fluidRow(
-                        column(8, offset = 2,
-                               br(),
+                        column(10, offset = 1,
+                               titlePanel(h1("Search The Resource Guide")))),
+                      fluidRow(
+                        column(10, offset = 1,
                                helpText(p(style="text-align: justify;", 
                                           h4("Black Voices on the City is a student-organized database that 
                                           aims to accomplish two things: first, to catalog the contributions
@@ -101,7 +101,7 @@ ui <- fluidPage(
                         )),
                       br(),
                       fluidRow(
-                        column(8, offset = 2,
+                        column(10, offset = 1,
                                wellPanel(
                                  h5(radioButtons(inputId = "keyword",
                                                  label = h3("Themes & Keywords"),
@@ -123,8 +123,8 @@ ui <- fluidPage(
                                                        inline = T)),
                                  h5(sliderInput (inputId = "years",
                                                  label = h3("Year Released"),
-                                                 1850, 2020, 
-                                                 value = c(1850, 2020),
+                                                 1890, 2020, 
+                                                 value = c(1890, 2020),
                                                  sep = "")),
                                  h5(selectInput(inputId = "location",
                                                  label = h3("Location"),
@@ -140,95 +140,22 @@ ui <- fluidPage(
                       ),
                       br(),
                       fluidRow(
-                        column(8,offset = 2,
+                        column(10,offset = 1,
                                dataTableOutput("table"))
                       ),
                       br(),
                       br(),
                       br()
              ),
-             tabPanel("About",
-                      fluidRow(
-                        column(4, offset = 5,
-                               img(src='Logo-Dark-Fresno-6.png', width="200", align="center"))),
-                      fluidRow(
-                        column(8, offset = 2,
-                               titlePanel(h1("About")))),
-                      br(),
-                      hr(),
-                      br(),
-                      fluidRow(
-                        column(8, offset = 2,
-                               helpText(h3("Who We Are"), align="center"),
-                               helpText(p(style="text-align: justify;",
-                                          h4("One of the most important guiding questions in anti-racism teachings
-                               is “Who am I/who are we to do this work?” We owe users of this guide our answer 
-                               to that question so they can hold us accountable as we exercise our privileges to
-                               fight anti-Black racism in the field of urban planning. We are
-                               a group of majority non-Black graduate students and alumni whose lives have benefited
-                               from intersections with other forms of privilege, such as being male and cisgender
-                              or having access to family wealth and higher education. Some of us also identify
-                               as queers, feminists, and immigrants. We come to this work with a recognition that these
-                               identities produce a number of limitations and blindspots, which is why we are calling
-                               on everyone with an interest in tackling anti-Blackness within urban planning to collaborate
-                               with us and critique our work."))),
-                               helpText(p(style="text-align: justify;",
-                                          h4("For additional information on how we inform our allyship, please see Amélie Lamont’s",
-                                             tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
-                               br(),
-                               helpText(h3("Acknowledgements"), align="center"),
-                               helpText(p(style="text-align: justify;", 
-                                          h4("This guide is indebted first and foremost to the scholars, authors and creators
-                                          listed here. It is also the result of the collective effort of students, alumni
-                                          and others, who have dedicated their time and resources to changing the ways in
-                                          which we learn what planning is and who planners are. Finally, we would like to
-                                          acknowledge the efforts of individuals and organizations who have also created
-                                          resource lists on anti-Blackness and anti-racism in planning and related fields, 
-                                          which have helped in the creation of this guide  (see Additional Resources).")))
-                        )),
-                      br(),
-                      fluidRow(
-                        column(4, offset = 2,
-                               helpText(h3("What’s In This Guide"), align="center"),
-                               helpText(p(style="text-align: justify;", 
-                                          h4("This guide attempts to collect and curate the contributions of Black planners,
-                                          scholars, artists, writers, organizers and practitioners from a variety of fields
-                                          that are concerned with the process of organizing space and place in the urban
-                                          environment. The works listed here represent both traditional planning preoccupations
-                                          such as housing policy, transportation planning and urban design, as well as more
-                                          interdisciplinary fields like urban sociology, cultural history, and Black-centered
-                                          approaches to community building and organizing. Users will also find a number of
-                                          critical approaches and novel methodologies employed to de-center whiteness in the
-                                          analysis of urban issues. Finally, while the majority of resources are books or journal
-                                          articles, we have also endeavored to include various media such as videos
-                                          and online essays.")))
-                        ),
-                        column(4,
-                               helpText(h3("What’s NOT In This Guide"), align="center"),
-                               helpText(p(style="text-align: justify;", 
-                                          h4("Simply put, this guide does not include non-Black people writing about Black people.
-                                          A wealth of important scholarship by non-Black scholars and planners exists on the racist
-                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
-                                          They have also documented successful urban social movements and advocacy efforts within Black
-                                          communities. While such materials are important to a comprehensive understanding of the historical,
-                                          social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and work of Black creators.")))  )),
-                      br(),
-                      br(),
-                      br() ),
              
-             tabPanel("How To Use This Guide",
+             tabPanel("How To Use",
                       fluidRow(
-                        column(4, offset = 5,
-                               img(src='Logo-Dark-Fresno-6.png', width="200", align="center"))),
-                      fluidRow(
-                        column(8, offset = 2,
-                               titlePanel(h1("How To Use This Guide")))),
+                        column(4, offset = 1,
+                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
                       br(),
-                      hr(),
+                      br(),
                       fluidRow(
-                        column(8, offset = 2,
-                               br(),
+                        column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
                                           h4("We hope this guide will be of great use to all members of the general
                                           public interested in urban planning and policy issues, but we particularly
@@ -277,30 +204,97 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;",
                                           h4("Please report any broken links or corrections to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
                                br(),
-                               br()
-                        ))
+                               br(),
+                               br()))
                       
              ),
              
-             tabPanel("Additional Resources",
+             tabPanel("About",
                       fluidRow(
-                        column(4, offset = 5,
-                               img(src='Logo-Dark-Fresno-6.png', width="200", align="center"))),
-                      fluidRow(
-                        column(8, offset = 2,
-                               titlePanel(h1("Additional Resources")))),
+                        column(5, offset = 1,
+                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
                       br(),
-                      
-                      hr(),
-
+                      br(),
                       fluidRow(
-                        column(8, offset = 2,
+                        column(10, offset = 1,
+                               helpText(h3("Who We Are")),
+                               helpText(p(style="text-align: justify;",
+                                          h4("One of the most important guiding questions in anti-racism teachings
+                               is “Who am I/who are we to do this work?” We owe users of this guide our answer 
+                               to that question so they can hold us accountable as we exercise our privileges to
+                               fight anti-Black racism in the field of urban planning. We are
+                               a group of majority non-Black graduate students and alumni whose lives have benefited
+                               from intersections with other forms of privilege, such as being male and cisgender
+                              or having access to family wealth and higher education. Some of us also identify
+                               as queers, feminists, and immigrants. We come to this work with a recognition that these
+                               identities produce a number of limitations and blindspots, which is why we are calling
+                               on everyone with an interest in tackling anti-Blackness within urban planning to collaborate
+                               with us and critique our work.", "For additional information on how we inform our allyship, please see Amélie Lamont’s",
+                                             tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
+                               br(),
+                               helpText(h3("Acknowledgements")),
+                               helpText(p(style="text-align: justify;", 
+                                          h4("This guide is indebted first and foremost to the scholars, authors and creators
+                                          listed here. It is also the result of the collective effort of students, alumni
+                                          and others, who have dedicated their time and resources to changing the ways in
+                                          which we learn what planning is and who planners are. Finally, we would like to
+                                          acknowledge the efforts of individuals and organizations who have also created
+                                          resource lists on anti-Blackness and anti-racism in planning and related fields, 
+                                          which have helped in the creation of this guide.")))
+                        )),
+                      br(),
+                      fluidRow(
+                        column(5, offset = 1,
+                               helpText(h3("What’s In This Guide")),
+                               helpText(p(style="text-align: justify;", 
+                                          h4(img(src='green_mark.png', width="20"), "Traditional planning subjects"),
+                                          h4(img(src='green_mark.png', width="20"), "Urban sociology"),
+                                          h4(img(src='green_mark.png', width="20"), "Cultural history"),
+                                          h4(img(src='green_mark.png', width="20"), "Black-centred approaches to community building + organizing"),
+                                          h4(img(src='green_mark.png', width="20"), "Ways to de-centre Whiteness in urbanism"),
+                                          h4(img(src='green_mark.png', width="20"), "Multimedia sources"),
+                                          h4("This guide attempts to collect and curate the contributions of Black planners,
+                                          scholars, artists, writers, organizers and practitioners from a variety of fields
+                                          that are concerned with the process of organizing space and place in the urban
+                                          environment. The works listed here represent both traditional planning preoccupations
+                                          such as housing policy, transportation planning and urban design, as well as more
+                                          interdisciplinary fields like urban sociology, cultural history, and Black-centered
+                                          approaches to community building and organizing. Users will also find a number of
+                                          critical approaches and novel methodologies employed to de-center whiteness in the
+                                          analysis of urban issues. Finally, while the majority of resources are books or journal
+                                          articles, we have also endeavored to include various media such as videos
+                                          and online essays.")))
+                        ),
+                        column(5,
+                               helpText(h3("What’s NOT In This Guide")),
+                               helpText(p(style="text-align: justify;", 
+                                          h4(img(src='red_mark.png', width="20"), "Non-Black work"),
+                                          h4("Simply put, this guide does not include non-Black people writing about Black people.
+                                          A wealth of important scholarship by non-Black scholars and planners exists on the racist
+                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
+                                          They have also documented successful urban social movements and advocacy efforts within Black
+                                          communities. While such materials are important to a comprehensive understanding of the historical,
+                                          social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
+                                          and work of Black creators.")))  )),
+                      br(),
+                      br(),
+                      br() ),
+
+             
+             tabPanel("More Resources",
+                      fluidRow(
+                        column(4, offset = 1,
+                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
+                      br(),
+                      br(),
+                      fluidRow(
+                        column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
                                           h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."))))),
                       br(),
                       
                       fluidRow(
-                        column(8, offset = 2,
+                        column(10, offset = 1,
                                wellPanel(
                                  tags$div(align = 'left',
                                           
@@ -310,8 +304,9 @@ ui <- fluidPage(
                                                                 inline = FALSE))  ))    ) ),
                       br(),
                       fluidRow(
-                        column(8,offset = 2,
+                        column(10,offset = 1,
                                dataTableOutput("table_AR"))),
+                      br(),
                       br(),
                       br()  )            
   ))
