@@ -61,19 +61,17 @@ data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
 
 #load(file = "data/data.Rdata")
 
-
 library(rsconnect)
 
 ### UI ###
 
 ui <- fluidPage(
-  br(),
   includeCSS("www/bootstrap.css"),
   navbarPage("",
              tabPanel("The Guide",
                       fluidRow(
                         column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
+                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
                       br(),
                       br(),
                       fluidRow(
@@ -151,7 +149,7 @@ ui <- fluidPage(
              tabPanel("How To Use",
                       fluidRow(
                         column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
+                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
                       br(),
                       br(),
                       fluidRow(
@@ -212,7 +210,7 @@ ui <- fluidPage(
              tabPanel("About",
                       fluidRow(
                         column(5, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
+                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
                       br(),
                       br(),
                       fluidRow(
@@ -284,7 +282,7 @@ ui <- fluidPage(
              tabPanel("More Resources",
                       fluidRow(
                         column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="150"))),
+                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
                       br(),
                       br(),
                       fluidRow(
@@ -308,8 +306,49 @@ ui <- fluidPage(
                                dataTableOutput("table_AR"))),
                       br(),
                       br(),
-                      br()  )            
-  ))
+                      br()  ),
+             
+             navbarMenu("Contact",
+                        tabPanel("Contact Us",
+                                 fluidRow(
+                                   column(4, offset = 1,
+                                          img(src='Logo-Dark-Fresno-6.png', width="100"))),
+                                 br(), br(), br(), br(), br(), br(),
+                                 fluidRow(
+                                   column(5, offset = 4,
+                                          helpText(p(style="text-align: justify;",
+                                                     h4(tags$b("Please reach us at", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "in order to:")),
+                                                     br(),
+                                                     h4(img(src='green_mark.png', width="20"), "Report any broken links or corrections"),
+                                                     h4(img(src='green_mark.png', width="20"), "Let us know how we can improve BVOTC"),
+                                                     h4(img(src='green_mark.png', width="20"), "Collaborate and join the team"),
+                                                     br(), 
+                                                     br(),
+                                                     br()
+                                                     ))))),
+                        tabPanel("Contribute & Submit",
+                                 fluidRow(
+                                   column(4, offset = 1,
+                                          img(src='Logo-Dark-Fresno-6.png', width="100"))),
+                                 br(), br(), br(), br(), br(), br(),
+                                 fluidRow(
+                                   column(5, offset = 4,
+                                          helpText(p(style="text-align: justify;",
+                                                     h4(tags$b("Have you recently...")),
+                                                     h4(img(src='green_mark.png', width="20"), "Read a piece of literature"),
+                                                     h4(img(src='green_mark.png', width="20"), "viewed a video"),
+                                                     h4(img(src='green_mark.png', width="20"), "listened to a podcast"),
+                                                     h4(tags$b("That is...")),
+                                                     h4(img(src='green_mark.png', width="20"), "Urban-Themed &"),
+                                                     h4(img(src='green_mark.png', width="20"), "Empowers black voices"),
+                                                     br(), br(),
+                                                     h4("If so, do not hesitate to contribute a resource to this database by using our", 
+                                                        tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
+                                                        "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com."), "BVOTC's respository of urban-themed black perspectives
+                                                        is 100% crowdsourced and we welcome all suggestions that match the 'What's in this Guide' criteria."),
+                                                     br(), br(), br()
+                                                     ))))
+  ))))
 
 ### Server ###
 server <- function(input, output) {

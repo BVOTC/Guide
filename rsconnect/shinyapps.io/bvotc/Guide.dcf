@@ -5,8 +5,8 @@ account: bvotc
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2615167
-bundleId: 3560699
+bundleId: 3564531
 url: https://bvotc.shinyapps.io/Guide/
-when: 1598462341.24461
+when: 1598549838.24474
 asMultiple: FALSE
 asStatic: FALSE

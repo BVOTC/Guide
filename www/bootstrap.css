@@ -1,11 +1,20 @@
 html {
-  font-family: "Helvetica";
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
 }
+
+@font-face {
+  font-family: 'Barlow';
+  src: url(Fonts/Barlow-Regular.ttf);
+}
+@font-face {
+  font-family: 'The Neue';
+  src: url(Fonts/TheNeue-Black.ttf);
+}
+
 article,
 aside,
 details,
@@ -3850,7 +3859,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: #ffffff;
   border-color: transparent;
   float: right;
-  width: 40%;
+  width: 75%;
 }
 .navbar-default .navbar-brand {
   color: #E3B761;
@@ -3869,6 +3878,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   font-weight: 600;
   font-size: 15px;
   line-height: 18px;
+  text-transform: uppercase;
 }
 .navbar-default .navbar-nav > li > a:hover {
   background-color: #111;
