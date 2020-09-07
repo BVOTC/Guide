@@ -8,6 +8,7 @@ library(readxl)
 library(shinythemes)
 library(shinyWidgets)
 library(DT)
+library(shinydashboard)
 
 
 
@@ -67,11 +68,12 @@ library(rsconnect)
 
 ui <- fluidPage(
   includeCSS("www/bootstrap.css"),
-  navbarPage("",
+  navbarPage("", 
              tabPanel("The Guide",
                       fluidRow(
-                        column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
+                        column(10, offset = 1,
+                               img(src='MainPageBanner-Slim2.png', width = "1130"))
+                      ),
                       br(),
                       br(),
                       fluidRow(
@@ -147,11 +149,8 @@ ui <- fluidPage(
              ),
              
              tabPanel("How To Use",
-                      fluidRow(
-                        column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
-                      br(),
-                      br(),
+                      br(), br(),
+                      tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                       fluidRow(
                         column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
@@ -208,11 +207,8 @@ ui <- fluidPage(
              ),
              
              tabPanel("About",
-                      fluidRow(
-                        column(5, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
-                      br(),
-                      br(),
+                      br(), br(),
+                      tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                       fluidRow(
                         column(10, offset = 1,
                                helpText(h3("Who We Are")),
@@ -280,11 +276,8 @@ ui <- fluidPage(
 
              
              tabPanel("More Resources",
-                      fluidRow(
-                        column(4, offset = 1,
-                               img(src='Logo-Dark-Fresno-6.png', width="100"))),
-                      br(),
-                      br(),
+                      br(), br(),
+                      tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                       fluidRow(
                         column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
@@ -310,10 +303,9 @@ ui <- fluidPage(
              
              navbarMenu("Contact",
                         tabPanel("Contact Us",
-                                 fluidRow(
-                                   column(4, offset = 1,
-                                          img(src='Logo-Dark-Fresno-6.png', width="100"))),
-                                 br(), br(), br(), br(), br(), br(),
+                                 br(), br(),
+                                 tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
+                                 br(), br(), br(), br(), br(), br(), br(), br(), 
                                  fluidRow(
                                    column(5, offset = 4,
                                           helpText(p(style="text-align: justify;",
@@ -327,10 +319,9 @@ ui <- fluidPage(
                                                      br()
                                                      ))))),
                         tabPanel("Contribute & Submit",
-                                 fluidRow(
-                                   column(4, offset = 1,
-                                          img(src='Logo-Dark-Fresno-6.png', width="100"))),
-                                 br(), br(), br(), br(), br(), br(),
+                                 br(), br(),
+                                 tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
+                                 br(), br(), br(), br(), br(), br(), br(), br(), 
                                  fluidRow(
                                    column(5, offset = 4,
                                           helpText(p(style="text-align: justify;",
