@@ -74,8 +74,7 @@ ui <- fluidPage(
                         column(10, offset = 1,
                                img(src='MainPageBanner-Slim2.png', width = "1130"))
                       ),
-                      br(),
-                      br(),
+                      br(), br(),
                       fluidRow(
                         column(10, offset = 1,
                                titlePanel(h1("Search The Resource Guide")))),
@@ -153,6 +152,11 @@ ui <- fluidPage(
                       tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                       fluidRow(
                         column(10, offset = 1,
+                               img(src='MainPageBanner-Slimmest.png', width = "1130"))
+                      ),
+                      br(), br(),
+                      fluidRow(
+                        column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
                                           h4("We hope this guide will be of great use to all members of the general
                                           public interested in urban planning and policy issues, but we particularly
@@ -209,6 +213,11 @@ ui <- fluidPage(
              tabPanel("About",
                       br(), br(),
                       tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
+                      fluidRow(
+                        column(10, offset = 1,
+                               img(src='MainPageBanner-Slimmest.png', width = "1130"))
+                      ),
+                      br(), br(),
                       fluidRow(
                         column(10, offset = 1,
                                helpText(h3("Who We Are")),
@@ -280,6 +289,11 @@ ui <- fluidPage(
                       tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                       fluidRow(
                         column(10, offset = 1,
+                               img(src='MainPageBanner-Slimmest.png', width = "1130"))
+                      ),
+                      br(), br(),
+                      fluidRow(
+                        column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
                                           h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists."))))),
                       br(),
@@ -305,7 +319,11 @@ ui <- fluidPage(
                         tabPanel("Contact Us",
                                  br(), br(),
                                  tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
-                                 br(), br(), br(), br(), br(), br(), br(), br(), 
+                                 fluidRow(
+                                   column(10, offset = 1,
+                                          img(src='MainPageBanner-Slimmest.png', width = "1130"))
+                                 ),
+                                 br(), br(), br(), br(), 
                                  fluidRow(
                                    column(5, offset = 4,
                                           helpText(p(style="text-align: justify;",
@@ -321,7 +339,11 @@ ui <- fluidPage(
                         tabPanel("Contribute & Submit",
                                  br(), br(),
                                  tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
-                                 br(), br(), br(), br(), br(), br(), br(), br(), 
+                                 fluidRow(
+                                   column(10, offset = 1,
+                                          img(src='MainPageBanner-Slimmest.png', width = "1130"))
+                                 ),
+                                 br(), br(), br(), br(),
                                  fluidRow(
                                    column(5, offset = 4,
                                           helpText(p(style="text-align: justify;",
