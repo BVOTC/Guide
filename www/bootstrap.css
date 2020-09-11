@@ -191,10 +191,19 @@ optgroup {
   font-weight: bold;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important
 }
-td,
+
+tr{
+  border-collapse: collapse !important}
+
+td {border:0 !important; 
+border-spacing: 0 !important;
+  border-top: none!important;
+    border-bottom: none !important}
+
+    
 th {
   padding: 0;
 }
@@ -1288,10 +1297,14 @@ h2,
 }
 h3,
 .h3 {
-  font-size: 20px;
-  font-family: The Neue;
-  color : #333;
   text-transform: uppercase;
+  font-family: Barlow;
+font-style: italic;
+font-weight: 600;
+font-size: 15px;
+line-height: 18px;
+color :  #000000
+/* identical to box height */
 }
 h4,
 .h4 {
@@ -2378,10 +2391,13 @@ pre code {
     margin-left: 0%;
   }
 }
+
+
+
 table {
-  background-color: #333;
+  background-color: #3A469D !important ;
   font-family: Barlow;
-  border: 1px solid black;
+  border: 0px solid black;
 
 }
 
@@ -2397,6 +2413,10 @@ td {
   text-align: left;
 }
 
+
+tbody tr:nth-child(even) {background:  #FDF9FB !important}
+tbody tr:nth-child(odd) {background: white !important}
+
 fieldset {
   min-width: 0;
   padding: 0;
@@ -2410,7 +2430,6 @@ legend {
   margin-bottom: 20px;
   font-size: 21px;
   line-height: inherit;
-  color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -3455,6 +3474,7 @@ tbody.collapse.in {
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:focus {
   color: #fff;
+  
   text-decoration: none;
   background-color: #337ab7;
   outline: 0;
@@ -3863,7 +3883,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-color: transparent;
   float: right;
   width: 92%;
-  padding-top: 40px;
+  padding-top: 3em;
   position: sticky;
   top: 0;
 }
@@ -3896,10 +3916,13 @@ nav ul {
 
 .navbar-nav > .active > a {
   background-color:#ffffff !important;
-  color: #333 !important;
-  text-decoration: underline !important;
-  text-decoration-color: red !important;
+  color: #000000 !important;
+  text-decoration-line : underline !important;
+  text-decoration-style: solid!important ;
+  text-decoration-color: #EE3624 !important;
   font-weight: 800 !important;
+  font-family: Barlow;
+
 }
 .breadcrumb {
   padding: 8px 15px;
@@ -5028,14 +5051,14 @@ button.list-group-item-danger.active:focus {
   padding-bottom: 75%;
 }
 .well {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background: #F1EDEE;
-  border-color: #333;
-  border-width: 1px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  min-height: 2em;
+  padding: 2.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background: #FDF9FB;
+  border-color: #FDF9FB;
+  border-width: 0px
+
 }
 .well blockquote {
   border-color: #ddd;
