@@ -83,8 +83,8 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;", 
                                           h4("Black Voices on the City is a student-organized database that 
                                           aims to accomplish two things: first, to catalog contributions
-                                          of black researchers and practitioners to the field of urban planning,
-                                          and second, to amplify black voices in a field that has been overwhelmingly dominated by white, cisgender,
+                                          of Black researchers and practitioners to the field of urban planning,
+                                          and second, to amplify Black voices in a field that has been overwhelmingly dominated by white, cisgender,
                                           heterosexual men since its beginnings. As current students and alumni 
                                           of Canadian urban planning programs, 
                                           the development of this guide was born out of our 
