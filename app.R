@@ -164,7 +164,7 @@ ui <- fluidPage(tweaks,
                       br(),
                       fluidRow(
                         column(10,offset = 1,
-                               dataTableOutput("table"))
+                              h5( dataTableOutput("table")))
                       )
                     
              ),
