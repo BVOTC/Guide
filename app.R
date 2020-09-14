@@ -64,9 +64,22 @@ data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
 
 library(rsconnect)
 
+tweaks <- 
+  list(tags$head(tags$style(HTML("
+                                 .multicol { 
+                                   width = 4;
+                                   -webkit-column-count: 2; /* Chrome, Safari, Opera */ 
+                                   -moz-column-count: 2;    /* Firefox */ 
+                                   column-count: 2; 
+                                   -moz-column-fill: auto;
+                                   -column-fill: auto;
+                                 } 
+                                 ")) 
+  ))
+
 ### UI ###
 
-ui <- fluidPage(
+ui <- fluidPage(tweaks,
   includeCSS("www/bootstrap.css"),
   navbarPage("", 
              tabPanel("The Guide",
@@ -95,15 +108,18 @@ ui <- fluidPage(
                                helpText(p(style="text-align: justify;", 
                                           h4("If you would like to contribute a resource to this database, please use our", 
                                              tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
-                                             "or send us an email at",  tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
+                                             "or send us an email at",  tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       br(),
                       fluidRow(
                         column(10, offset = 1,
                                wellPanel(
-                                 h5( radioButtons(inputId = "keyword",
+                                 h3("Themes & Keywords"),
+                                 h5(  tags$div(align = 'left', 
+                                               class = 'multicol', 
+                                                                          radioButtons(inputId = "keyword",
                                                 
-                                                 label = h3("Themes & Keywords"),
+                                                 label = NULL,
                                                  choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
                                                                             "Community Organizing and Citizen Participation",
                                                                             "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
@@ -113,13 +129,15 @@ ui <- fluidPage(
                                                                             "Public Housing and Cooperatives", "Public Space and Parks", 
                                                                             "Racial and Social Justice", "Segregation and Redlining",
                                                                             "Sustainability, Environment, and Health","Transportation", "Urban History"),
-                                                                selected = "Architecture and Urban Design",
-                                                                inline = F)),
+                                                            #    selected = "Architecture and Urban Design",
+                                                                inline = F))),
+                                 br(style="height:6px"),
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
                                                        choices = unique(data$item_format_2),
                                                        selected = unique(data$item_format_2),
                                                        inline = T)),
+                                 br(),
                                  h5( chooseSliderSkin(
                                    skin = "Flat",
                                    #c("Shiny", "Flat", "Modern", "Nice", "Simple", "HTML5", "Round", "Square"),
@@ -130,6 +148,7 @@ ui <- fluidPage(
                                                  1890, 2020, 
                                                  value = c(1890, 2020),
                                                  sep = "")),
+                                 br(),
                                  h5(selectInput(inputId = "location",
                                                  label = h3("Location"),
                                                  choices = c("All", "United States", "Canada", "Beyond North America"),
@@ -208,7 +227,7 @@ ui <- fluidPage(
                                           available through your local bookstores."))),
                                br(),
                                helpText(p(style="text-align: justify;",
-                                          h4("Please report any broken links or corrections to", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
+                                          h4("Please report any broken links or corrections to", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
                                br(),
                                br(),
                                br()))
@@ -274,7 +293,7 @@ ui <- fluidPage(
                                              ))),
                                helpText(p(style="text-align: justify;", 
                                           h4("If you would like to contribute to this list, you can send us an email at",  
-                                             tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "."))))),
+                                             tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "."))))),
                       br(),
                       
                       fluidRow(
@@ -318,7 +337,7 @@ ui <- fluidPage(
                                                                  helpText(p(style="text-align: justify;",
                                                                 h4("BVOTC's respository of urban-themed black perspectives
                                                         is 100% crowdsourced and we welcome all suggestions that match the criteria on the How to Use page."),
-                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "instagram"), "."),
+                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "instagram"), "."),
                                                      br(), br(), br()
                                                      ))))),
              
@@ -327,7 +346,7 @@ ui <- fluidPage(
              fluidRow(column(12, offset = 0,
                              style = 'text-align: center',
                              tags$a(href='https://www.instagram.com/blackvoicesonthecity/',tags$img(src='Icon-IG.png', width = "40")),
-                             tags$a(href="bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")),
+                             tags$a(href="mailto: bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")),
                              
                              a(h4("ADD A RESOURCE", class = "btn btn-link" , ), target = "_blank",
                                href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))) ,
