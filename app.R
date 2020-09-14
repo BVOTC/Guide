@@ -309,7 +309,7 @@ ui <- fluidPage(
                                                      h4("If you've come across literature or online media created by a Black urbanist, 
                                                         activist or planner, you can use our google form to add to the guide:"))))),
                                                         
-                             fluidRow(column(6, offset = 3,
+                             fluidRow(column(6, offset = 3,  align= "center",
                              a(h4("ADD A RESOURCE", class = "btn btn-default btn-lg action-button" , ), target = "_blank",
                                href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))),                       
                                                         br(),
