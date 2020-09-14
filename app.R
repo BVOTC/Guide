@@ -110,7 +110,7 @@ ui <- fluidPage(tweaks,
                                              tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
                                              "or send us an email at",  tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
-                      br(),
+                      
                       fluidRow(
                         column(10, offset = 1,
                                wellPanel(
@@ -131,13 +131,13 @@ ui <- fluidPage(tweaks,
                                                                             "Sustainability, Environment, and Health","Transportation", "Urban History"),
                                                             #    selected = "Architecture and Urban Design",
                                                                 inline = F))),
-                                 br(style="height:6px"),
+                                
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
                                                        choices = unique(data$item_format_2),
                                                        selected = unique(data$item_format_2),
                                                        inline = T)),
-                                 br(),
+                                 
                                  h5( chooseSliderSkin(
                                    skin = "Flat",
                                    #c("Shiny", "Flat", "Modern", "Nice", "Simple", "HTML5", "Round", "Square"),
@@ -148,7 +148,7 @@ ui <- fluidPage(tweaks,
                                                  1890, 2020, 
                                                  value = c(1890, 2020),
                                                  sep = "")),
-                                 br(),
+                                
                                  h5(selectInput(inputId = "location",
                                                  label = h3("Location"),
                                                  choices = c("All", "United States", "Canada", "Beyond North America"),
