@@ -18,7 +18,7 @@ Sys.setenv(LANG = "en")
 ######### Import guide data ################################
 
 ## Load data
-data <- read_csv("data/Guide_Sources.csv") %>%
+data <- read_csv("data/Guide_Sources_sept2020.csv") %>%
 
   # Pivot Longer
   select(1:14) %>%
@@ -101,7 +101,7 @@ ui <- fluidPage(
                       fluidRow(
                         column(10, offset = 1,
                                wellPanel(
-                                 h5(radioButtons(inputId = "keyword",
+                                 h5( radioButtons(inputId = "keyword",
                                                 
                                                  label = h3("Themes & Keywords"),
                                                  choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
@@ -114,7 +114,7 @@ ui <- fluidPage(
                                                                             "Racial and Social Justice", "Segregation and Redlining",
                                                                             "Sustainability, Environment, and Health","Transportation", "Urban History"),
                                                                 selected = "Architecture and Urban Design",
-                                                                inline = T)),
+                                                                inline = F)),
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
                                                        choices = unique(data$item_format_2),
@@ -303,18 +303,18 @@ ui <- fluidPage(
                               
                         
                                  fluidRow(
-                                   column(10, offset = 1,
+                                   column(6, offset = 3,
                                           helpText(p(style="text-align: justify;",
                                                      
                                                      h4("If you've come across literature or online media created by a Black urbanist, 
                                                         activist or planner, you can use our google form to add to the guide:"))))),
                                                         
-                             fluidRow(column(10, offset = 1,
+                             fluidRow(column(6, offset = 3,
                              a(h4("ADD A RESOURCE", class = "btn btn-default btn-lg action-button" , ), target = "_blank",
                                href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))),                       
                                                         br(),
                                                         fluidRow(
-                                                          column(10, offset = 1,
+                                                          column(6, offset = 3,
                                                                  helpText(p(style="text-align: justify;",
                                                                 h4("BVOTC's respository of urban-themed black perspectives
                                                         is 100% crowdsourced and we welcome all suggestions that match the criteria on the How to Use page."),
@@ -327,7 +327,7 @@ ui <- fluidPage(
              fluidRow(column(12, offset = 0,
                              style = 'text-align: center',
                              tags$a(href='https://www.instagram.com/blackvoicesonthecity/',tags$img(src='Icon-IG.png', width = "40")),
-                             tags$a(href="bvotc.guide@gmail.com",tags$img(src='Icon-Email.png', width = "40")),
+                             tags$a(href="bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")),
                              
                              a(h4("ADD A RESOURCE", class = "btn btn-link" , ), target = "_blank",
                                href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))) ,
