@@ -33,8 +33,9 @@ pivot_longer(cols = 11:14,
  select(-14) %>%
 
   mutate(
+    All = "All",
     # Create new Item Format column (remove book redundancy)
-    
+  
           item_format_2 = `Media Format` %>%
                           replace(`Media Format` == "Book - Entire" |
                                     `Media Format` == "Book - Chapter", 
@@ -67,12 +68,15 @@ library(rsconnect)
 tweaks <- 
   list(tags$head(tags$style(HTML("
                                  .multicol { 
-                                   width = 4;
+                            
                                    -webkit-column-count: 2; /* Chrome, Safari, Opera */ 
                                    -moz-column-count: 2;    /* Firefox */ 
                                    column-count: 2; 
-                                   -moz-column-fill: auto;
-                                   -column-fill: auto;
+                                   -moz-column-fill: balance;
+                                   -column-fill: balance;
+                                     -webkit-column-gap: 0.7em;
+     -moz-column-gap: 0.7em;
+          column-gap: 0.7em
                                  } 
                                  ")) 
   ))
@@ -114,17 +118,19 @@ ui <- fluidPage(tweaks,
                       fluidRow(
                         column(10, offset = 1,
                                wellPanel(
-                                 h3("Themes & Keywords"),
+                                 h3("Themes"),
                                  h5(  tags$div(align = 'left', 
                                                class = 'multicol', 
                                                                           radioButtons(inputId = "keyword",
                                                 
                                                  label = NULL,
-                                                 choices = c("Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
+                                                 choices = c("All", "Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
                                                                             "Community Organizing and Citizen Participation",
                                                                             "Crime, Policing, and Surveillance", "Culture, Placemaking, and Black Geographies", 
                                                                             "Development and Gentrification", "Feminist and Queer Urbanism", 
-                                                                            "Mapping and GIS", "Municipal Policy and Governance", 
+                                                                            "Mapping and GIS", 
+                                                             
+                                                             "Municipal Policy and Governance", 
                                                                             "Politics of Land, Property, and Colonialism", 
                                                                             "Public Housing and Cooperatives", "Public Space and Parks", 
                                                                             "Racial and Social Justice", "Segregation and Redlining",
@@ -225,12 +231,70 @@ ui <- fluidPage(tweaks,
                                           articles and scholarly works are accessible only through institutional (i.e. university) access, please check if
                                           your local public library offers access online or through Interlibrary Loan (ILL) programs. Many of the books are
                                           available through your local bookstores."))),
+                               br())),
                                br(),
-                               helpText(p(style="text-align: justify;",
-                                          h4("Please report any broken links or corrections to", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com")))),
+                               fluidRow(
+                                 # column(5, offset = 1,
+                                 #        helpText(h3(img(src='green_mark.png', width="20"), "What’s In This Guide")),
+                                 #        helpText(p(style="text-align: justify;", 
+                                 #                   
+                                 #                   h4("This guide attempts to collect and curate the contributions of Black planners,
+                                 #          scholars, artists, writers, organizers and practitioners from a variety of fields
+                                 #          that are concerned with the process of organizing space and place in the urban
+                                 #          environment. The works listed here represent both traditional planning preoccupations
+                                 #          such as housing policy, transportation planning and urban design, as well as more
+                                 #          interdisciplinary fields like urban sociology, cultural history, and Black-centered
+                                 #          approaches to community building and organizing. Users will also find a number of
+                                 #          critical approaches and novel methodologies employed to de-center whiteness in the
+                                 #          analysis of urban issues. Finally, while the majority of resources are books or journal
+                                 #          articles, we have also endeavored to include various media such as videos
+                                 #          and online essays.")))
+                                 # ),
+                                 
+                                 column(5, offset = 1,
+                                        helpText(h3("What’s In This Guide")),
+                                        helpText(p(style="text-align: justify;", 
+                                                   
+                                                   h4(
+                                            "This guide attempts to collect and curate the contributions of Black planners,
+                                          scholars, artists, writers, organizers and practitioners from a variety of fields
+                                          that are concerned with the process of organizing space and place in the urban
+                                          environment. The works listed here represent:"),
+                                                      h4(img(src='green_mark.png', width="20"), 
+                                                    "Traditional planning preoccupations (i.e. housing policy, transportation
+                                                    planning and urban design), as well as more interdisciplinary fields 
+                                                    such as urban sociology, cultural history, and Black-centered
+                                          approaches to community building and organizing."),
+                                                   h4(img(src='green_mark.png', width="20"), "A range of
+                                          critical approaches and novel methodologies employed to de-center whiteness in the
+                                          analysis of urban issues."),
+                                                   h4(img(src='green_mark.png', width="20"), 
+                                                   "Multimedia sources and online essays alongside books and academic journals,")))
+                                 ),
+                                 column(5,
+                                        helpText(h3("What’s NOT In This Guide")),
+                                        helpText(p(style="text-align: justify;", 
+                                                  
+                                                   h4(img(src='red_mark.png', width="20"), "Non-Black work."),
+                                                   h4(
+                                      "Simply put, this guide does not include non-Black people writing about Black people.
+                                          A wealth of important scholarship by non-Black scholars and planners exists on the racist
+                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
+                                          They have also documented successful urban social movements and advocacy efforts within Black
+                                          communities. While such materials are important to a comprehensive understanding of the historical,
+                                          social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
+                                          and work of Black creators."))),
+                                        
+                                        )),
+                        br(),
+                        br(),
+                        fluidRow(
+                          column(10, offset = 1,   
+                        helpText(p(style="text-align: justify;",
+                                   h4("Please report any broken links or corrections to", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))) )),
                                br(),
                                br(),
-                               br()))
+                               br())
                       
              ),
              
@@ -287,7 +351,7 @@ ui <- fluidPage(tweaks,
                       fluidRow(
                         column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
-                                          h4("Here you can find a very inexhaustive list of Black-led urbanist organisations, media, and complementary resource lists." 
+                                          h4("Here you can find a very noon-exhaustive list of Black-led urbanist organisations, media, and complementary resource lists." 
                                              
                                              
                                              ))),
@@ -308,7 +372,7 @@ ui <- fluidPage(tweaks,
                       br(),
                       fluidRow(
                         column(10,offset = 1,
-                               dataTableOutput("table_AR")))  ),
+                               h5(dataTableOutput("table_AR"))))  ),
              
           
                         tabPanel("Contact Us",
@@ -362,7 +426,8 @@ server <- function(input, output) {
 
       if (input$location == "All" & input$language == "All"){
         data <- data %>%
-          filter(`Sustainability, Environment, and Health` %in% input$keyword |
+          filter(`All` %in% input$keyword |
+            `Sustainability, Environment, and Health` %in% input$keyword |
                    `Racial and Social Justice` %in% input$keyword |
                    `Development and Gentrification` %in% input$keyword |
                    `Community Organizing and Citizen Participation` %in% input$keyword |
@@ -383,7 +448,8 @@ server <- function(input, output) {
                  Year >= input$years[1] & Year <= input$years[2])}
       else if (input$location != "All" & input$language == "All") {
         data <- data %>%
-          filter(`Sustainability, Environment, and Health` %in% input$keyword |
+          filter(`All` %in% input$keyword |
+                   `Sustainability, Environment, and Health` %in% input$keyword |
                    `Racial and Social Justice` %in% input$keyword |
                    `Development and Gentrification` %in% input$keyword |
                    `Community Organizing and Citizen Participation` %in% input$keyword |
@@ -406,7 +472,8 @@ server <- function(input, output) {
       }
     else if (input$location == "All" & input$language != "All") {
       data <- data %>%
-        filter(`Sustainability, Environment, and Health` %in% input$keyword |
+        filter(`All` %in% input$keyword | 
+                 `Sustainability, Environment, and Health` %in% input$keyword |
                  `Racial and Social Justice` %in% input$keyword |
                  `Development and Gentrification` %in% input$keyword |
                  `Community Organizing and Citizen Participation` %in% input$keyword |
@@ -430,7 +497,8 @@ server <- function(input, output) {
     
     else {
       data <- data %>%
-        filter(`Sustainability, Environment, and Health` %in% input$keyword |
+        filter(`All` %in% input$keyword |
+                 `Sustainability, Environment, and Health` %in% input$keyword |
                  `Racial and Social Justice` %in% input$keyword |
                  `Development and Gentrification` %in% input$keyword |
                  `Community Organizing and Citizen Participation` %in% input$keyword |
@@ -480,13 +548,11 @@ server <- function(input, output) {
               
               escape = FALSE,
               rownames= FALSE,
-              options = list( #autoWidth = TRUE,
-                             #scrollX=TRUE,
+              options = list( 
                              pageLength = 20,
                              columnDefs = list(
                                                list(targets= c(0), visible=FALSE)
-                                              #  list(targets=c(1), visible=TRUE, width = '40%'),
-                                              # list(dom='t',ordering=F, targets=c(2), visible=TRUE, width='60%')
+                                              
                                                ) )
               )
   })
