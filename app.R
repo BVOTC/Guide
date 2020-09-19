@@ -533,8 +533,8 @@ server <- function(input, output) {
                                      list(targets=c(5), visible=TRUE, width='15%'),
                                      list(targets=c(6), visible=TRUE, width='15%'),
                                      list(targets=c(7), visible=TRUE, width='13%'),
-                                     list(targets = c(0,8:28), visible = FALSE)),
-                                   pageLength = 20),
+                                     list(targets = c(0,8:29), visible = FALSE)),
+                                   pageLength = 10),
               escape = FALSE #  makes HTML entities in the table not escaped (allows hyperlinks in table)
     )
   })  
