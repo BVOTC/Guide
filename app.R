@@ -18,7 +18,7 @@ Sys.setenv(LANG = "en")
 ######### Import guide data ################################
 
 ## Load data
-data <- read_csv("data/Guide_Sources_sept2020.csv") %>%
+data <- read_csv("data/Guide_Sources_20Sept2020.csv") %>%
 
   # Pivot Longer
   select(1:14) %>%
