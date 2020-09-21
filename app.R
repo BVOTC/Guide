@@ -269,7 +269,7 @@ ui <- fluidPage(tweaks,
                                           critical approaches and novel methodologies employed to de-center whiteness in the
                                           analysis of urban issues."),
                                                    h4(img(src='green_mark.png', width="20"), 
-                                                   "Multimedia sources and online essays alongside books and academic journals,")))
+                                                   "Multimedia sources and online essays alongside books and academic journals.")))
                                  ),
                                  column(5,
                                         helpText(h3("What’s NOT In This Guide")),
