@@ -401,7 +401,7 @@ ui <- fluidPage(tweaks,
                                                                  helpText(p(style="text-align: justify;",
                                                                 h4("BVOTC's respository of urban-themed black perspectives
                                                         is 100% crowdsourced and we welcome all suggestions that match the criteria on the How to Use page."),
-                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "instagram"), "."),
+                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "Instagram.")),
                                                      br(), br(), br()
                                                      ))))),
              
