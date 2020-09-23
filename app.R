@@ -51,11 +51,11 @@ pivot_longer(cols = 11:14,
 
 ###### Import additional resources data ###############################
 
-data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
+data_AR <- read_csv("data/Guide_Sources - More Resources.csv") %>%
   mutate( Name = if_else(is.na(Link),
                          Name,
                          paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
-  select(Type, Name, Notes = Description)
+  select(Type, Name, Location, Notes = Description)
 
 
 
@@ -351,7 +351,7 @@ ui <- fluidPage(tweaks,
                       fluidRow(
                         column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
-                                          h4("Here you can find a very noon-exhaustive list of Black-led urbanist organisations, media, and complementary resource lists." 
+                                          h4("Here you can find a non-exhaustive list of Black-led urbanist organisations, media, and complementary resource lists." 
                                              
                                              
                                              ))),
@@ -548,9 +548,13 @@ server <- function(input, output) {
               
               escape = FALSE,
               rownames= FALSE,
-              options = list( 
+              options = list( autoWidth = TRUE,
+                              scrollX=TRUE,
                              pageLength = 20,
-                             columnDefs = list(
+                             columnDefs = list(list(targets=c(1), visible=TRUE, width = '30%'),
+                                               list(targets=c(2), visible=TRUE, width='20%'),
+                                               list(targets=c(3), visible=TRUE, width='50%'),
+                                              
                                                list(targets= c(0), visible=FALSE)
                                               
                                                ) )
