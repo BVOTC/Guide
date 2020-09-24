@@ -51,7 +51,7 @@ pivot_longer(cols = 11:14,
 
 ###### Import additional resources data ###############################
 
-data_AR <- read_csv("data/Guide_Sources - More Resources.csv") %>%
+data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
   mutate( Name = if_else(is.na(Link),
                          Name,
                          paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
