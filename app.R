@@ -85,12 +85,17 @@ tweaks <-
 
 ui <- fluidPage(tweaks,
   includeCSS("www/bootstrap.css"),
-  navbarPage("", 
+
+  navbarPage(title = "",
+             
+             
              tabPanel("The Guide",
+                      
                       fluidRow(
                         column(12, offset = 0, style='padding-left:0px; padding-right:0px; margin-left: -1.1em ; margin-right: -1.1em',
                                img(src='MainPageBanner.png', width = '102.2%'))
                       ),
+                      
                       br(), br(),
                       fluidRow(
                         column(10, offset = 1,
@@ -111,7 +116,7 @@ ui <- fluidPage(tweaks,
                                           re-imagining what constitutes urban planning and who contributes to that dialogue."))),
                                helpText(p(style="text-align: justify;", 
                                           h4("If you would like to contribute a resource to this database, please use our", 
-                                             tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "Google Form"),
+                                             tags$a(href = "https://forms.gle/EuVgpKqhT4aGCaYFA", "form"),
                                              "or send us an email at",  tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))))
                         )),
                       
@@ -178,6 +183,7 @@ ui <- fluidPage(tweaks,
              tabPanel("How To Use",
                       br(), br(),
                       tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
+                     
                       fluidRow(
                         column(12, offset = 0, style='padding-left:0px; padding-right:0px; margin-left: -1.1em ; margin-right: -1.1em',
                                img(src='MainPageBanner-Slimmest.png', width = '102.2%'))
@@ -234,22 +240,7 @@ ui <- fluidPage(tweaks,
                                br())),
                                br(),
                                fluidRow(
-                                 # column(5, offset = 1,
-                                 #        helpText(h3(img(src='green_mark.png', width="20"), "What’s In This Guide")),
-                                 #        helpText(p(style="text-align: justify;", 
-                                 #                   
-                                 #                   h4("This guide attempts to collect and curate the contributions of Black planners,
-                                 #          scholars, artists, writers, organizers and practitioners from a variety of fields
-                                 #          that are concerned with the process of organizing space and place in the urban
-                                 #          environment. The works listed here represent both traditional planning preoccupations
-                                 #          such as housing policy, transportation planning and urban design, as well as more
-                                 #          interdisciplinary fields like urban sociology, cultural history, and Black-centered
-                                 #          approaches to community building and organizing. Users will also find a number of
-                                 #          critical approaches and novel methodologies employed to de-center whiteness in the
-                                 #          analysis of urban issues. Finally, while the majority of resources are books or journal
-                                 #          articles, we have also endeavored to include various media such as videos
-                                 #          and online essays.")))
-                                 # ),
+
                                  
                                  column(5, offset = 1,
                                         helpText(h3("What’s In This Guide")),
@@ -351,13 +342,20 @@ ui <- fluidPage(tweaks,
                       fluidRow(
                         column(10, offset = 1,
                                helpText(p(style="text-align: justify;",
-                                          h4("Here you can find a non-exhaustive list of Black-led urbanist organisations, media, and complementary resource lists." 
+                                          h4("Here you can find a non-exhaustive list of Black-led urbanist organisations, media outlets, and complementary resource lists." 
                                              
                                              
                                              ))),
                                helpText(p(style="text-align: justify;", 
-                                          h4("If you would like to contribute to this list, you can send us an email at",  
-                                             tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "."))))),
+                                          h4("If you would like to contribute to this list, please use our", 
+                                             tags$a(href = "https://docs.google.com/forms/d/e/1FAIpQLSdoOvTsbXbaVlFZlkoUM_s3rY6dvebZrXZJn5OMt0YlLa0JQA/viewform", "additional resources form"),
+                                             "or send us an email at",
+                                             
+                                              tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com.")
+                                             
+                                             ))))),
+                      
+                      
                       br(),
                       
                       fluidRow(
@@ -372,7 +370,16 @@ ui <- fluidPage(tweaks,
                       br(),
                       fluidRow(
                         column(10,offset = 1,
-                               h5(dataTableOutput("table_AR"))))  ),
+                               h5(dataTableOutput("table_AR")))) ,
+                      
+                      fluidRow(column(6, offset = 3,  align= "center",
+                                      
+                                      a(h4("ADD AN ORGANISATION / MEDIA OUTLET", class = "btn btn-link btn-lg" , ), target = "_blank",
+                                        href = "https://docs.google.com/forms/d/e/1FAIpQLSdoOvTsbXbaVlFZlkoUM_s3rY6dvebZrXZJn5OMt0YlLa0JQA/viewform?usp=send_form")
+                      )), 
+                      
+                      ),
+             
              
           
                         tabPanel("Contact Us",
@@ -389,31 +396,55 @@ ui <- fluidPage(tweaks,
                                    column(6, offset = 3,
                                           helpText(p(style="text-align: justify;",
                                                      
-                                                     h4("If you've come across literature or online media created by a Black urbanist, 
-                                                        activist or planner, you can use our google form to add to the guide:"))))),
+                                                     h4("If you've come across literature, web articles, or videos created by a Black urbanist, 
+                                                        activist or planner, you can use our form to add to the guide:"))))),
                                                         
                              fluidRow(column(6, offset = 3,  align= "center",
-                             a(h4("ADD A RESOURCE", class = "btn btn-default btn-lg action-button" , ), target = "_blank",
-                               href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))),                       
-                                                        br(),
+                             a(h4("ADD TO THE GUIDE", class = "btn btn-default btn-lg action-button" , ), target = "_blank",
+                               href = "https://forms.gle/EuVgpKqhT4aGCaYFA")
+                             )),                       
+                                                        br(),  
+                             fluidRow(
+                               column(6, offset = 3,
+                                      helpText(p(style="text-align: justify;",
+                                                 h4("BVOTC's respository of urban-themed black perspectives
+                                                        is 100% crowdsourced and we welcome all suggestions that match the criteria on the How to Use page."),
+                                                 h4("If you'd like to add a Black-led urbanist organization or general media source (e.g. blog, podcast, Twitter account, resource list) to the More Resources page, please use this form: "))))),
+                             
+                             fluidRow(column(6, offset = 3,  align= "center",
+                                             
+                                             a(h4("ADD TO 'MORE RESOURCES' PAGE", class = "btn btn-default btn-lg action-button" , ), target = "_blank",
+                                               href = "https://docs.google.com/forms/d/e/1FAIpQLSdoOvTsbXbaVlFZlkoUM_s3rY6dvebZrXZJn5OMt0YlLa0JQA/viewform?usp=send_form")
+                             )), 
+                             
+                             br(),   
+                             
                                                         fluidRow(
                                                           column(6, offset = 3,
                                                                  helpText(p(style="text-align: justify;",
-                                                                h4("BVOTC's respository of urban-themed black perspectives
-                                                        is 100% crowdsourced and we welcome all suggestions that match the criteria on the How to Use page."),
-                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "Instagram.")),
+                                                               
+                                                        h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com,", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "Instagram"), "or",
+                                                           tags$a(href = "https://twitter.com/bvotcguide", "Twitter.")),
                                                      br(), br(), br()
-                                                     ))))),
+                                                     ))))
+                             
+                             
+                             
+                             ),
              
              br(), br(), 
              
-             fluidRow(column(12, offset = 0,
+             fluidRow(
+              
+               column(12, offset = 0,  align= "center",
                              style = 'text-align: center',
+                             tags$a(href='https://twitter.com/bvotcguide',tags$img(src='Icon-Twitter.png', width = "40")),
                              tags$a(href='https://www.instagram.com/blackvoicesonthecity/',tags$img(src='Icon-IG.png', width = "40")),
-                             tags$a(href="mailto: bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")),
-                             
-                             a(h4("ADD A RESOURCE", class = "btn btn-link" , ), target = "_blank",
-                               href = "https://forms.gle/EuVgpKqhT4aGCaYFA"))) ,
+                             tags$a(href="mailto: bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")) ),
+                      br(),
+                      column(6, offset = 3,  align= "center",
+                             a(h4("ADD TO THE GUIDE", class = "btn btn-link" ), target = "_blank",
+                               href = "https://forms.gle/EuVgpKqhT4aGCaYFA")) ) ,
              
              br(), br()
   )) 
