@@ -351,7 +351,12 @@ ui <- fluidPage(tweaks,
                                              tags$a(href = "https://docs.google.com/forms/d/e/1FAIpQLSdoOvTsbXbaVlFZlkoUM_s3rY6dvebZrXZJn5OMt0YlLa0JQA/viewform", "additional resources form"),
                                              "or send us an email at",
                                              
-                                              tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com.")
+                                              tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com."),
+                                             br(),
+                                       
+                                             
+                                             helpText(p(style="text-align: justify;", 
+                                                        h6( "Note: Please follow these accounts but, particularly if you are a white person,  be mindful of not overwhelming Black practitioners with requests for collaboration or other questions unless you know them personally or have an established working relationship." )) )
                                              
                                              ))))),
                       

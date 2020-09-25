@@ -1325,11 +1325,12 @@ h5,
 }
 h6,
 .h6 {
-  font-size: 12px;
+  font-size: 14px;
   font-family: Barlow;
   color : #333;
-  line-height: 26px;
+  line-height: 18px;
   text-align: justify;
+  font-style: italic;
 }
 p {
   margin: 0 0 10px;
