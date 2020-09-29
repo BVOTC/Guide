@@ -20,9 +20,16 @@ Sys.setenv(LANG = "en")
 ## Load data
 data <- read_csv("data/Guide_Sources.csv") %>%
 
+  select(1:14)
+  
+
+#make sure there are no duplicate titles
+unique(data$Title)
+nrow(data)
+
+
   # Pivot Longer
-  select(1:14) %>%
-pivot_longer(cols = 11:14,
+data <- data %>% pivot_longer(cols = 11:14,
            names_to = "Theme Type",
           values_to = "Themes") %>%
  select(-11) %>%
@@ -237,48 +244,34 @@ ui <- fluidPage(tweaks,
                                           articles and scholarly works are accessible only through institutional (i.e. university) access, please check if
                                           your local public library offers access online or through Interlibrary Loan (ILL) programs. Many of the books are
                                           available through your local bookstores."))),
+                               br(),
+                               
+                               helpText(h3("Accessing resources")),
+                               helpText(p(style="text-align: justify;",
+                                          h4("Although we strive to provide links to as many free sources as possible, we recognize that some of the literature on this site may be inaccessible for those with limited financial capacities or without access to a university library system. We believe that money should not bar one’s access to knowledge, and encourage users to explore a variety of modes of access. "),
+                                          br(),
+                                          h4("For books:"),
+                                          h5("- Browse your local public library’s catalogue"),
+                                          h5("- Search your local bookstore (", tags$a(href = "https://www.indiebound.org/indie-bookstore-finder", "US"), tags$a(href = "https://www.google.com/maps/d/u/0/viewer?mid=19gEK_fkWpBbp0Hvba32T5T77YzjosqXI&ll=43.30929915907397%2C-80.25552581529155&z=9", "Canada") ,")"),
+                                          h5("- Search Google with the title and “free pdf” "),
+                                          h5("- Visit", tags$a(href = "https://emilkirkegaard.dk/en/?p=7172", "libgen"),  "(use",
+                                             tags$a(href = "https://medium.com/@sqmblog/is-library-genesis-libgen-safe-a40c8d33b0b9", "caution"), 
+                                             "when downloading from online sites) "),
+                                          br(),
+                                          h4("For journal articles:"),
+                                          h5("- Check if your local library has database access"),
+                                          h5("- Look at all versions in Google Scholar (look for a PDF link in the right margin)"),
+                                          h5("- Contact the author(s) directly to request access (they generally don’t receive a cut of fees anyway, so will likely be happy to share their work)
+"),
+                                          h5("- PDF-sharing", tags$a(href = "https://www.facebook.com/groups/850609558335839", "Facebook groups") ),
+                                          h5("- Visit",tags$a(href = "https://emilkirkegaard.dk/en/?p=7165", "Sci-hub")  )
+                                          
+                                          )),
+                               
+                               
                                br())),
                                br(),
-                               fluidRow(
-
-                                 
-                                 column(5, offset = 1,
-                                        helpText(h3("What’s In This Guide")),
-                                        helpText(p(style="text-align: justify;", 
-                                                   
-                                                   h4(
-                                            "This guide attempts to collect and curate the contributions of Black planners,
-                                          scholars, artists, writers, organizers and practitioners from a variety of fields
-                                          that are concerned with the process of organizing space and place in the urban
-                                          environment. The works listed here represent:"),
-                                                      h4(img(src='green_mark.png', width="20"), 
-                                                    "Traditional planning preoccupations (i.e. housing policy, transportation
-                                                    planning and urban design), as well as more interdisciplinary fields 
-                                                    such as urban sociology, cultural history, and Black-centered
-                                          approaches to community building and organizing."),
-                                                   h4(img(src='green_mark.png', width="20"), "A range of
-                                          critical approaches and novel methodologies employed to de-center whiteness in the
-                                          analysis of urban issues."),
-                                                   h4(img(src='green_mark.png', width="20"), 
-                                                   "Multimedia sources and online essays alongside books and academic journals.")))
-                                 ),
-                                 column(5,
-                                        helpText(h3("What’s NOT In This Guide")),
-                                        helpText(p(style="text-align: justify;", 
-                                                  
-                                                   h4(img(src='red_mark.png', width="20"), "Non-Black work."),
-                                                   h4(
-                                      "Simply put, this guide does not include non-Black people writing about Black people.
-                                          A wealth of important scholarship by non-Black scholars and planners exists on the racist
-                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
-                                          They have also documented successful urban social movements and advocacy efforts within Black
-                                          communities. While such materials are important to a comprehensive understanding of the historical,
-                                          social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
-                                          and work of Black creators."))),
-                                        
-                                        )),
-                        br(),
-                        br(),
+              
                         fluidRow(
                           column(10, offset = 1,   
                         helpText(p(style="text-align: justify;",
@@ -313,7 +306,52 @@ ui <- fluidPage(tweaks,
                                on everyone with an interest in tackling anti-Blackness within urban planning to collaborate
                                with us and critique our work.", "For additional information on how we inform our allyship, please see Amélie Lamont’s",
                                              tags$a(href = "https://guidetoallyship.com/", "Guide to Allyship.")))),
-                               br(),
+                               br() )),
+                      
+                      fluidRow(
+                        
+                        
+                        column(5, offset = 1,
+                               helpText(h3("What’s In This Guide")),
+                               helpText(p(style="text-align: justify;", 
+                                          
+                                          h4(
+                                            "This guide attempts to collect and curate the contributions of Black planners,
+                                          scholars, artists, writers, organizers and practitioners from a variety of fields
+                                          that are concerned with the process of organizing space and place in the urban
+                                          environment. The works listed here represent:"),
+                                          h4(img(src='green_mark.png', width="20"), 
+                                             "Traditional planning preoccupations (i.e. housing policy, transportation
+                                                    planning and urban design), as well as more interdisciplinary fields 
+                                                    such as urban sociology, cultural history, and Black-centered
+                                          approaches to community building and organizing."),
+                                          h4(img(src='green_mark.png', width="20"), "A range of
+                                          critical approaches and novel methodologies employed to de-center whiteness in the
+                                          analysis of urban issues."),
+                                          h4(img(src='green_mark.png', width="20"), 
+                                             "Multimedia sources and online essays alongside books and academic journals.")))
+                        ),
+                        column(5,
+                               helpText(h3("What’s NOT In This Guide")),
+                               helpText(p(style="text-align: justify;", 
+                                          
+                                          h4(img(src='red_mark.png', width="20"), "Non-Black work."),
+                                          h4(
+                                            "Simply put, this guide does not include non-Black people writing about Black people.
+                                          A wealth of important scholarship by non-Black scholars and planners exists on the racist
+                                          practices embedded within urban planning, such as redlining, gentrification and “urban renewal.”
+                                          They have also documented successful urban social movements and advocacy efforts within Black
+                                          communities. While such materials are important to a comprehensive understanding of the historical,
+                                          social and economic dynamics within cities, this guide is meant to specifically highlight the ideas
+                                          and work of Black creators."))),
+                               
+                        )),
+                      br(),
+                      br(),
+                      fluidRow(
+                        
+                        
+                       column(10, offset = 1,
                                helpText(h3("Acknowledgements")),
                                helpText(p(style="text-align: justify;", 
                                           h4("This guide is indebted first and foremost to the scholars, authors and creators
