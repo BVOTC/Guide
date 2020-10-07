@@ -106,7 +106,10 @@ tweaks <-
 
 ui <- fluidPage(tweaks,
   includeCSS("www/bootstrap.css"),
+  
 
+ 
+ 
   navbarPage(title = "",
              
              
@@ -503,12 +506,42 @@ ui <- fluidPage(tweaks,
                              a(h4("ADD TO THE GUIDE", class = "btn btn-link" ), target = "_blank",
                                href = "https://forms.gle/EuVgpKqhT4aGCaYFA")) ) ,
              
-             br(), br()
-  )) 
+             br()
+  ),
+  
+  
+  
+  ## prevent disconnection 
+  tags$head(
+    HTML(
+      "
+          <script>
+          var socket_timeout_interval
+          var n = 0
+          $(document).on('shiny:connected', function(event) {
+          socket_timeout_interval = setInterval(function(){
+          Shiny.onInputChange('count', n++)
+          }, 15000)
+          });
+          $(document).on('shiny:disconnected', function(event) {
+          clearInterval(socket_timeout_interval)
+          });
+          </script>
+          "
+    ) ),
+  
+  textOutput("keepAlive"),
+  tags$head(tags$style("#keepAlive{color: white; }" ) ),
+
+  
+  ) 
              
 
 ### Server ###
 server <- function(input, output) {
+
+
+  
   
   output$table <- DT::renderDataTable({
 
@@ -556,22 +589,7 @@ server <- function(input, output) {
                    `Crime, Policing, and Surveillance` %in% input$keyword,
                  item_format_2 %in% input$type,
                  Year >= input$years[1] & Year <= input$years[2],
-                 # `United States` %in% input$location |
-                 #   `Canada` %in% input$location |
-                 #   `Bénin` %in% input$location |
-                 #   `Cameroun` %in% input$location |
-                 #   `Congo` %in% input$location |
-                 #   `Côte d'Ivoire` %in% input$location |
-                 #   `France` %in% input$location |
-                 #   `Haïti` %in% input$location |
-                 #   `Martinique` %in% input$location |
-                 #   `Niger` %in% input$location |
-                 #   `Nigeria` %in% input$location |
-                 #   `Philippines` %in% input$location |
-                 #   `Senégal` %in% input$location |
-                 #   `Multiple countries / Global` %in% input$location
                  Location %in% input$location
-                 #Location == input$location
                  ) 
       }
     else if (input$location == "All" & input$language != "All") {
@@ -666,6 +684,15 @@ server <- function(input, output) {
                                                ) )
               )
   })
+  
+  
+  ##needed to prevent disconnection  
+  output$keepAlive <- renderText({
+    req(input$count)
+    paste("keep alive ", input$count)
+  })
+  
+  
 }
 
 ### Run the application ###
