@@ -24,8 +24,22 @@ data <- read_csv("data/Guide_Sources.csv") %>%
   
 
 #make sure there are no duplicate titles
-unique(data$Title)
-nrow(data)
+duplicates <- data %>% filter (duplicated(Title)) %>% select(Title)
+
+#if there are duplicated titles, make sure they are different languages - THIS SHOULD HAVE 0 ROWS
+data %>% filter (Title %in% duplicates) %>% filter(duplicated(Language))
+
+
+## make sure all entries have a valid location
+
+location_list <- c("United States", "Bénin",
+                   "Cameroun", "Canada" , "Congo", 
+                   "Côte d'Ivoire" , "France", "Haïti",
+                   "Martinique", "Niger", "Nigeria",
+                   "Philippines", "Senégal", "Multiple countries / Global")
+
+data %>% filter (! Location %in% location_list)
+
 
 
   # Pivot Longer
@@ -58,11 +72,11 @@ data <- data %>% pivot_longer(cols = 11:14,
 
 ###### Import additional resources data ###############################
 
-data_AR <- read_csv("data/Guide_additional_resources.csv") %>%
+data_AR <- read_csv("data/More_Resources.csv") %>%
   mutate( Name = if_else(is.na(Link),
                          Name,
                          paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
-  select(Type, Name, Location, Notes = Description)
+  select(Type, Name, Location, Language, Notes = Description)
 
 
 
@@ -133,7 +147,7 @@ ui <- fluidPage(tweaks,
                                  h3("Themes"),
                                  h5(  tags$div(align = 'left', 
                                                class = 'multicol', 
-                                                                          radioButtons(inputId = "keyword",
+                                               radioButtons(inputId = "keyword",
                                                 
                                                  label = NULL,
                                                  choices = c("All", "Architecture and Urban Design", "Black Perspectives on Planning Practice and Education",
@@ -150,6 +164,7 @@ ui <- fluidPage(tweaks,
                                                             #    selected = "Architecture and Urban Design",
                                                                 inline = F))),
                                 
+                                 
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
                                                        choices = unique(data$item_format_2),
@@ -158,7 +173,6 @@ ui <- fluidPage(tweaks,
                                  
                                  h5( chooseSliderSkin(
                                    skin = "Flat",
-                                   #c("Shiny", "Flat", "Modern", "Nice", "Simple", "HTML5", "Round", "Square"),
                                    color = "#3A469D"
                                  ),
                                    sliderInput (inputId = "years",
@@ -166,13 +180,16 @@ ui <- fluidPage(tweaks,
                                                  1890, 2020, 
                                                  value = c(1890, 2020),
                                                  sep = "")),
-                                
-                                 h5(selectInput(inputId = "location",
-                                                 label = h3("Location"),
-                                                 choices = c("All", "United States", "Canada", "Beyond North America"),
-                                                 selected = "All",
-                                                width = "25%"),
-                                    selectInput(inputId = "language",
+                                 h3("Location"),
+                                 h5(  tags$div(align = 'left', 
+                                               class = 'multicol',   
+                                               checkboxGroupInput(inputId = "location",
+                                                                  label = NULL,
+                                                
+                                                 choices = c("All", location_list),
+                                                 selected = "All"
+                                                ))),
+                                 h5(  selectInput(inputId = "language",
                                                 label = h3("Language"),
                                                 choices = c("All", "English", "French"),
                                                 selected = "All",
@@ -240,10 +257,7 @@ ui <- fluidPage(tweaks,
                                helpText(p(style="text-align: justify;",
                                           h4("This guide offers an abundance of readings to challenge assumptions about race,
                                           place and meaning in the urban environment. It spans from the history of residential segregation and disparities
-                                          in public transportation to mapping Black joy and the achievements of Black architects. While many of the journal
-                                          articles and scholarly works are accessible only through institutional (i.e. university) access, please check if
-                                          your local public library offers access online or through Interlibrary Loan (ILL) programs. Many of the books are
-                                          available through your local bookstores."))),
+                                          in public transportation to mapping Black joy and the achievements of Black architects."))),
                                br(),
                                
                                helpText(h3("Accessing resources")),
@@ -251,8 +265,8 @@ ui <- fluidPage(tweaks,
                                           h4("Although we strive to provide links to as many free sources as possible, we recognize that some of the literature on this site may be inaccessible for those with limited financial capacities or without access to a university library system. We believe that money should not bar one’s access to knowledge, and encourage users to explore a variety of modes of access. "),
                                           br(),
                                           h4("For books:"),
-                                          h5("- Browse your local public library’s catalogue"),
-                                          h5("- Search your local bookstore (", tags$a(href = "https://www.indiebound.org/indie-bookstore-finder", "US"), tags$a(href = "https://www.google.com/maps/d/u/0/viewer?mid=19gEK_fkWpBbp0Hvba32T5T77YzjosqXI&ll=43.30929915907397%2C-80.25552581529155&z=9", "Canada") ,")"),
+                                          h5("- Browse your local public library’s catalogue or look at Interlibrary Loan (ILL) programs"),
+                                          h5("- Search your local bookstore (", tags$a(href = "https://www.indiebound.org/indie-bookstore-finder", "US"),",", tags$a(href = "https://www.google.com/maps/d/u/0/viewer?mid=19gEK_fkWpBbp0Hvba32T5T77YzjosqXI&ll=43.30929915907397%2C-80.25552581529155&z=9", "Canada") ,")"),
                                           h5("- Search Google with the title and “free pdf” "),
                                           h5("- Visit", tags$a(href = "https://emilkirkegaard.dk/en/?p=7172", "libgen"),  "(use",
                                              tags$a(href = "https://medium.com/@sqmblog/is-library-genesis-libgen-safe-a40c8d33b0b9", "caution"), 
@@ -542,7 +556,23 @@ server <- function(input, output) {
                    `Crime, Policing, and Surveillance` %in% input$keyword,
                  item_format_2 %in% input$type,
                  Year >= input$years[1] & Year <= input$years[2],
-                 Location == input$location) 
+                 # `United States` %in% input$location |
+                 #   `Canada` %in% input$location |
+                 #   `Bénin` %in% input$location |
+                 #   `Cameroun` %in% input$location |
+                 #   `Congo` %in% input$location |
+                 #   `Côte d'Ivoire` %in% input$location |
+                 #   `France` %in% input$location |
+                 #   `Haïti` %in% input$location |
+                 #   `Martinique` %in% input$location |
+                 #   `Niger` %in% input$location |
+                 #   `Nigeria` %in% input$location |
+                 #   `Philippines` %in% input$location |
+                 #   `Senégal` %in% input$location |
+                 #   `Multiple countries / Global` %in% input$location
+                 Location %in% input$location
+                 #Location == input$location
+                 ) 
       }
     else if (input$location == "All" & input$language != "All") {
       data <- data %>%
@@ -592,7 +622,8 @@ server <- function(input, output) {
                item_format_2 %in% input$type,
                Year >= input$years[1] & Year <= input$years[2],
                Language == input$language,
-               Location == input$location) 
+              Location %in% input$location
+               ) 
     }
 
     
@@ -622,12 +653,13 @@ server <- function(input, output) {
               
               escape = FALSE,
               rownames= FALSE,
-              options = list( autoWidth = TRUE,
+              options = list( autoWidth = FALSE,
                               scrollX=TRUE,
                              pageLength = 20,
-                             columnDefs = list(list(targets=c(1), visible=TRUE, width = '30%'),
-                                               list(targets=c(2), visible=TRUE, width='20%'),
-                                               list(targets=c(3), visible=TRUE, width='50%'),
+                             columnDefs = list(list(targets=c(1), visible=TRUE, width = '32%'),
+                                               list(targets=c(2), visible=TRUE, width='22%'),
+                                               list(targets=c(3), visible=TRUE, width='10%'),
+                                               list(targets=c(4), visible=TRUE, width='34%'),
                                               
                                                list(targets= c(0), visible=FALSE)
                                               
