@@ -32,11 +32,13 @@ data %>% filter (Title %in% duplicates) %>% filter(duplicated(Language))
 
 ## make sure all entries have a valid location
 
-location_list <- c("United States", "Bénin",
+location_list <- c("Bénin",
                    "Cameroun", "Canada" , "Congo", 
                    "Côte d'Ivoire" , "France", "Haïti",
                    "Martinique", "Niger", "Nigeria",
-                   "Philippines", "Senégal", "Multiple countries / Global")
+                   "Philippines", "Senégal",
+                   "United States", 
+                   "Multiple countries / Global")
 
 data %>% filter (! Location %in% location_list)
 
@@ -544,6 +546,10 @@ server <- function(input, output) {
   
   
   output$table <- DT::renderDataTable({
+    
+    validate(
+      need(input$location != "", "Please select a location"
+      ))
 
       if (input$location == "All" & input$language == "All"){
         data <- data %>%
