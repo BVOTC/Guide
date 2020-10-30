@@ -20,7 +20,7 @@ Sys.setenv(LANG = "en")
 ## Load data
 data <- read_csv("data/Guide_Sources.csv") %>%
 
-  select(1:14)
+  select(1:15)
   
 
 #make sure there are no duplicate titles
@@ -30,30 +30,17 @@ duplicates <- data %>% filter (duplicated(Title)) %>% select(Title)
 data %>% filter (Title %in% duplicates) %>% filter(duplicated(Language))
 
 
-## make sure all entries have a valid location
 
-location_list <- c("Bénin",
-                   "Cameroun", "Canada" , "Congo", 
-                   "Côte d'Ivoire" , "France", "Haïti",
-                   "Martinique", "Niger", "Nigeria",
-                   "Philippines", "Senégal",
-                   "United States", 
-                   "Multiple countries / Global")
-
-data %>% filter (! Location %in% location_list)
-
-
-
-  # Pivot Longer
-data <- data %>% pivot_longer(cols = 11:14,
+# Pivot Longer
+data <- data %>% pivot_longer(cols = 12:15,
            names_to = "Theme Type",
           values_to = "Themes") %>%
- select(-11) %>%
+  select(-12) %>%
 
 # Pivot Wider
  pivot_wider(names_from = Themes,
               values_from = Themes) %>%
- select(-14) %>%
+ select(-15) %>%
 
   mutate(
     All = "All",
@@ -67,7 +54,17 @@ data <- data %>% pivot_longer(cols = 11:14,
          ##Embed hyperlinks in the item titles
           Title = if_else(is.na(Link),
                 Title,
-                paste0("<a href='",Link,"' target='_blank'>", Title,"</a>"))  ) 
+                paste0("<a href='",Link,"' target='_blank'>", Title,"</a>")) ,
+    
+    #Condense publisher and publication
+    
+    Publication  = if_else(is.na(Publication), Publisher, Publication)
+    
+    
+    ) %>%
+  
+  select(1:4, Country,  `Publication / Publisher` = Publication, `Media Format`, everything())
+
 
 
 #save(data, file = "data/data.Rdata")
@@ -108,11 +105,19 @@ tweaks <-
 
 ui <- fluidPage(tweaks,
   includeCSS("www/bootstrap.css"),
-  
 
- 
- 
-  navbarPage(title = "",
+  ## adds logo in browser tab
+  list(tags$head(HTML("<link rel='icon' type='image/gif/png' href='Logo-Dark-Fresno-6.png'>"))),
+  
+  navbarPage(
+    windowTitle	= "BVOTC Guide",     #adds title in browser tab
+    
+    
+    ##roundabout way to get English/French option in the tabPanel
+   # title = tags$script(HTML("var header = $('.navbar > .container-fluid'); header.append('<div style=\"display: block; float:right;padding: 14px 16px;   color: #333;text-decoration: none; font-family: Barlow; font-style: italic; font-weight: 400; font-size: 15px; line-height: 18px;\">EN /<a href=\"https://bvotc.shinyapps.io/Guide-fr/> FR </a>  </div>');"  )),
+   #  
+title = "",
+             
              
              
              tabPanel("The Guide",
@@ -185,15 +190,19 @@ ui <- fluidPage(tweaks,
                                                  1890, 2020, 
                                                  value = c(1890, 2020),
                                                  sep = "")),
-                                 h3("Location"),
-                                 h5(  tags$div(align = 'left', 
-                                               class = 'multicol',   
-                                               checkboxGroupInput(inputId = "location",
-                                                                  label = NULL,
-                                                
-                                                 choices = c("All", location_list),
-                                                 selected = "All"
-                                                ))),
+                      
+                                 
+                                 h5(checkboxGroupInput(inputId = "location",
+                                                       label = h3("Location"),
+                                                       choices = c("All",
+                                                                   "North America", "Africa",
+                                                                   "Caribbean", "Europe", "Global"
+                                                                   
+                                                                   ),
+                                                       selected = "All",
+                                                       inline = T)),
+                                 
+                          
                                  h5(  selectInput(inputId = "language",
                                                 label = h3("Language"),
                                                 choices = c("All", "English", "French"),
@@ -297,7 +306,7 @@ ui <- fluidPage(tweaks,
                                    h4("Please report any broken links or corrections to", tags$a(href = "mailto: bvotc.guide@gmail.com", "bvotc.guide@gmail.com"))) )),
                                br(),
                                br(),
-                               br())
+                               br() )
                       
              ),
              
@@ -380,12 +389,11 @@ ui <- fluidPage(tweaks,
                                           acknowledge the efforts of individuals and organizations who have also created
                                           resource lists on anti-Blackness and anti-racism in planning and related fields, 
                                           which have helped in the creation of this guide.")))
-                        )),
+                        ),
                       br(),
                      
-                      br(),
-                      br(),
-                      br() ),
+                    
+                      br() ) ) ,
 
              
              tabPanel("More Resources",
@@ -432,9 +440,8 @@ ui <- fluidPage(tweaks,
                       br(),
                       fluidRow(
                         column(10,offset = 1,
-                               h5(dataTableOutput("table_AR")))) ,
-                      
-                      fluidRow(column(6, offset = 3,  align= "center",
+                               h5(dataTableOutput("table_AR"))), 
+                        column(6, offset = 3,  align= "center",
                                       
                                       a(h4("ADD AN ORGANISATION / MEDIA OUTLET", class = "btn btn-link btn-lg" , ), target = "_blank",
                                         href = "https://docs.google.com/forms/d/e/1FAIpQLSdoOvTsbXbaVlFZlkoUM_s3rY6dvebZrXZJn5OMt0YlLa0JQA/viewform?usp=send_form")
@@ -444,7 +451,7 @@ ui <- fluidPage(tweaks,
              
              
           
-                        tabPanel("Contact Us",
+                        tabPanel("Contact",
                                  br(), br(),
                                  tags$a(href='https://bvotc.shinyapps.io/Guide/',tags$img(src='Logo-Dark-Fresno-6.png', width = "50")),
                                  fluidRow(
@@ -487,54 +494,59 @@ ui <- fluidPage(tweaks,
                                                                
                                                         h4("To report any broken links or corrections, let us know how we can improve BVOTC, or collaborate and join the team, please email us at", tags$a(href = "mailto: bvotc.guide@gmail.com,", "bvotc.guide@gmail.com"), "or reach out on",  tags$a(href = "https://www.instagram.com/blackvoicesonthecity/", "Instagram"), "or",
                                                            tags$a(href = "https://twitter.com/bvotcguide", "Twitter.")),
-                                                     br(), br(), br()
-                                                     ))))
+                                                     br(), br()
+                                                     ) )))
                              
                              
                              
-                             ),
-             
-             br(), br(), 
-             
-             fluidRow(
-              
-               column(12, offset = 0,  align= "center",
-                             style = 'text-align: center',
-                             tags$a(href='https://twitter.com/bvotcguide',tags$img(src='Icon-Twitter.png', width = "40")),
-                             tags$a(href='https://www.instagram.com/blackvoicesonthecity/',tags$img(src='Icon-IG.png', width = "40")),
-                             tags$a(href="mailto: bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")) ),
-                      br(),
-                      column(6, offset = 3,  align= "center",
-                             a(h4("ADD TO THE GUIDE", class = "btn btn-link" ), target = "_blank",
-                               href = "https://forms.gle/EuVgpKqhT4aGCaYFA")) ) ,
-             
-             br()
-  ),
+                             ) 
   
-  
-  
-  ## prevent disconnection 
-  tags$head(
-    HTML(
-      "
-          <script>
-          var socket_timeout_interval
-          var n = 0
-          $(document).on('shiny:connected', function(event) {
-          socket_timeout_interval = setInterval(function(){
-          Shiny.onInputChange('count', n++)
-          }, 15000)
-          });
-          $(document).on('shiny:disconnected', function(event) {
-          clearInterval(socket_timeout_interval)
-          });
-          </script>
-          "
-    ) ),
-  
-  textOutput("keepAlive"),
-  tags$head(tags$style("#keepAlive{color: white; }" ) ),
 
+  
+  
+
+
+  ) ,
+ 
+ 
+ 
+ fluidRow(
+   
+   column(12, offset = 0,  align= "center",
+          style = 'text-align: center',
+          br(), br(),
+          tags$a(href='https://twitter.com/bvotcguide',tags$img(src='Icon-Twitter.png', width = "40")),
+          tags$a(href='https://www.instagram.com/blackvoicesonthecity/',tags$img(src='Icon-IG.png', width = "40")),
+          tags$a(href="mailto: bvotc.guide@gmail.com", tags$img(src='Icon-Email.png', width = "40")) ),
+   br(),
+   column(6, offset = 3,  align= "center",
+          a(h4("ADD TO THE GUIDE", class = "btn btn-link" ), target = "_blank",
+            href = "https://forms.gle/EuVgpKqhT4aGCaYFA"),
+          br(), br(),
+          
+          
+          ## prevent disconnection
+          tags$head(
+            HTML(
+              "
+                              <script>
+                              var socket_timeout_interval
+                              var n = 0
+                              $(document).on('shiny:connected', function(event) {
+                              socket_timeout_interval = setInterval(function(){
+                              Shiny.onInputChange('count', n++)
+                              }, 15000)
+                              });
+                              $(document).on('shiny:disconnected', function(event) {
+                              clearInterval(socket_timeout_interval)
+                              });
+                              </script>
+                              " ) ),
+          
+          textOutput("keepAlive"),
+          tags$head(tags$style("#keepAlive{color: white; }" ) )
+   ) )
+ 
   
   ) 
              
@@ -548,7 +560,7 @@ server <- function(input, output) {
   output$table <- DT::renderDataTable({
     
     validate(
-      need(input$location != "", "Please select a location"
+      need(input$location != "", "Please select a location."
       ))
 
       if (input$location == "All" & input$language == "All"){
@@ -595,7 +607,7 @@ server <- function(input, output) {
                    `Crime, Policing, and Surveillance` %in% input$keyword,
                  item_format_2 %in% input$type,
                  Year >= input$years[1] & Year <= input$years[2],
-                 Location %in% input$location
+                 Region %in% input$location
                  ) 
       }
     else if (input$location == "All" & input$language != "All") {
@@ -646,7 +658,7 @@ server <- function(input, output) {
                item_format_2 %in% input$type,
                Year >= input$years[1] & Year <= input$years[2],
                Language == input$language,
-              Location %in% input$location
+               Region %in% input$location
                ) 
     }
 
@@ -657,9 +669,9 @@ server <- function(input, output) {
                                    columnDefs = list(
                                      list(targets=c(1), visible=TRUE, width = '14%'),
                                      list(targets=c(2), visible=TRUE, width='8%'),
-                                     list(targets=c(3), visible=TRUE, width='30%'),
+                                     list(targets=c(3), visible=TRUE, width='33%'),
                                      list(targets=c(4), visible=TRUE, width='5%'),
-                                     list(targets=c(5), visible=TRUE, width='15%'),
+                                     list(targets=c(5), visible=TRUE, width='12%'),
                                      list(targets=c(6), visible=TRUE, width='15%'),
                                      list(targets=c(7), visible=TRUE, width='13%'),
                                      list(targets = c(0,8:ncol(data)), visible = FALSE)),
