@@ -177,8 +177,8 @@ title = "",
                                  
                                  h5(checkboxGroupInput(inputId = "type",
                                                        label = h3("Media Type"),
-                                                       choices = unique(data$item_format_2),
-                                                       selected = unique(data$item_format_2),
+                                                       choices = c("All", "Book" , "Journal Article" , "Report" , "Thesis", "News Article",   "Online Material",  "Video", "Podcast", "Multimedia / Other"    ),
+                                                       selected = "All",
                                                        inline = T)),
                                  
                                  h5( chooseSliderSkin(
@@ -202,12 +202,16 @@ title = "",
                                                        selected = "All",
                                                        inline = T)),
                                  
+                                 h5(checkboxGroupInput(inputId = "language",
+                                                       label = h3("Language"),
+                                                       choices = c("English", "French"),
+                                                       selected = c("English", "French"),inline = T))
                           
-                                 h5(  selectInput(inputId = "language",
-                                                label = h3("Language"),
-                                                choices = c("All", "English", "French"),
-                                                selected = "All",
-                                                width = "25%"))
+                                 # h5(  selectInput(inputId = "language",
+                                 #                label = h3("Language"),
+                                 #                choices = c("All", "English", "French"),
+                                 #                selected = "All",
+                                 #                width = "25%"))
                                  ))
                       ),
                       br(),
@@ -559,11 +563,11 @@ server <- function(input, output) {
   
   output$table <- DT::renderDataTable({
     
-    validate(
-      need(input$location != "", "Please select a location."
-      ))
+    validate(need(input$location != "", "Please select a location." ))
+    
+    validate( need(input$type != "", "Please select a media type." ))
 
-      if (input$location == "All" & input$language == "All"){
+      if (input$location == "All" & input$type == "All"){
         data <- data %>%
           filter(`All` %in% input$keyword |
             `Sustainability, Environment, and Health` %in% input$keyword |
@@ -583,9 +587,9 @@ server <- function(input, output) {
                    `Public Housing and Cooperatives` %in% input$keyword |
                    `Feminist and Queer Urbanism` %in% input$keyword |
                    `Crime, Policing, and Surveillance` %in% input$keyword,
-                 item_format_2 %in% input$type,
+                 Language %in% input$language,
                  Year >= input$years[1] & Year <= input$years[2])}
-      else if (input$location != "All" & input$language == "All") {
+      else if (input$location != "All" & input$type == "All") {
         data <- data %>%
           filter(`All` %in% input$keyword |
                    `Sustainability, Environment, and Health` %in% input$keyword |
@@ -605,12 +609,12 @@ server <- function(input, output) {
                    `Public Housing and Cooperatives` %in% input$keyword |
                    `Feminist and Queer Urbanism` %in% input$keyword |
                    `Crime, Policing, and Surveillance` %in% input$keyword,
-                 item_format_2 %in% input$type,
+                 Language %in% input$language,
                  Year >= input$years[1] & Year <= input$years[2],
                  Region %in% input$location
                  ) 
       }
-    else if (input$location == "All" & input$language != "All") {
+    else if (input$location == "All" & input$type != "All") {
       data <- data %>%
         filter(`All` %in% input$keyword | 
                  `Sustainability, Environment, and Health` %in% input$keyword |
@@ -630,9 +634,9 @@ server <- function(input, output) {
                  `Public Housing and Cooperatives` %in% input$keyword |
                  `Feminist and Queer Urbanism` %in% input$keyword |
                  `Crime, Policing, and Surveillance` %in% input$keyword,
-               item_format_2 %in% input$type,
+               Language %in% input$language,
                Year >= input$years[1] & Year <= input$years[2],
-               Language == input$language) 
+               item_format_2 %in% input$type) 
     }
     
     else {
@@ -655,9 +659,9 @@ server <- function(input, output) {
                  `Public Housing and Cooperatives` %in% input$keyword |
                  `Feminist and Queer Urbanism` %in% input$keyword |
                  `Crime, Policing, and Surveillance` %in% input$keyword,
-               item_format_2 %in% input$type,
+                Language %in% input$language,
                Year >= input$years[1] & Year <= input$years[2],
-               Language == input$language,
+               item_format_2 %in% input$type,
                Region %in% input$location
                ) 
     }
