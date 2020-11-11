@@ -74,7 +74,10 @@ data <- data %>% pivot_longer(cols = 12:15,
 data_AR <- read_csv("data/More_Resources.csv") %>%
   mutate( Name = if_else(is.na(Link),
                          Name,
-                         paste0("<a href='",Link,"' target='_blank'>", Name,"</a>"))) %>%
+                         paste0("<a href='",Link,"' target='_blank'>", Name,"</a>")),
+          Language = case_when(Language ==  "Anglais" ~ "English" ,
+                               Language ==  "Français" ~ "French" ,
+                               TRUE ~ Language)) %>%
   select(Type, Name, Location, Language, Notes = Description)
 
 
@@ -110,14 +113,12 @@ ui <- fluidPage(tweaks,
   list(tags$head(HTML("<link rel='icon' type='image/gif/png' href='Logo-Dark-Fresno-6.png'>"))),
   
   navbarPage(
-    windowTitle	= "BVOTC Guide",     #adds title in browser tab
+    windowTitle	= "Black Voices on the City",     #adds title in browser tab
     
-    
-    ##roundabout way to get English/French option in the tabPanel
-   # title = tags$script(HTML("var header = $('.navbar > .container-fluid'); header.append('<div style=\"display: block; float:right;padding: 14px 16px;   color: #333;text-decoration: none; font-family: Barlow; font-style: italic; font-weight: 400; font-size: 15px; line-height: 18px;\">EN /<a href=\"https://bvotc.shinyapps.io/Guide-fr/> FR </a>  </div>');"  )),
-   #  
-title = "",
-             
+
+   #roundabout way to get English/French option in the tabPanel
+   title = tags$script(HTML("var header = $('.navbar > .container-fluid'); header.append('<div style=\"display: block; float:right;padding: 14px 16px;   color: #333;text-decoration: none; font-family: Barlow; font-style: italic; font-weight: 400; font-size: 15px; line-height: 18px;\">EN / <a href=\"https://bvotc.shinyapps.io/Guide-fr/\"> FR </a>  </div>');"  )),
+
              
              
              tabPanel("The Guide",
